@@ -6,6 +6,8 @@ import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui
 import ReactGA from "react-ga";
 import { createBrowserHistory } from "history";
 
+import { HomePage } from "./views/home";
+
 // Define global style constants
 const PRIMARY_COLOR = "#545863";
 const SECONDARY_COLOR = "#47A8BD";
@@ -109,8 +111,6 @@ history.listen((location) => {
 // Setup Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS as string);
 
-const LoginPage: React.FC = () => <h1>Hello</h1>;
-
 // Setup App
 // @ts-ignore
 export const App: React.FC = () => {
@@ -123,7 +123,7 @@ export const App: React.FC = () => {
                 {/* Instantiate Primary Application Router */}
                 <Router history={history}>
                     <Switch>
-                        <Route exact path={"/"} component={LoginPage} />
+                        <Route exact path={"/"} component={HomePage} />
                         <Redirect to="/" />
                     </Switch>
                 </Router>
