@@ -5,12 +5,14 @@ import { red } from "@material-ui/core/colors";
 import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core/styles";
 import ReactGA from "react-ga";
 import { createBrowserHistory } from "history";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 import { HomePage } from "./views/home";
 
 // Define global style constants
-const PRIMARY_COLOR = "#545863";
-const SECONDARY_COLOR = "#47A8BD";
+const PRIMARY_COLOR = "#586994";
+const SECONDARY_COLOR = "#a5d8ff";
 
 declare module "@material-ui/core/styles/createMuiTheme" {
     interface Theme {
@@ -118,16 +120,19 @@ export const App: React.FC = () => {
         <React.Fragment>
             {/* Setup CSS Baseline for Material UI */}
             <CssBaseline />
-            {/* Provide Material UI Theme to App */}
-            <ThemeProvider theme={theme}>
-                {/* Instantiate Primary Application Router */}
-                <Router history={history}>
-                    <Switch>
-                        <Route exact path={"/"} component={HomePage} />
-                        <Redirect to="/" />
-                    </Switch>
-                </Router>
-            </ThemeProvider>
+            {/* Redux Provider */}
+            <Provider store={store}>
+                {/* Provide Material UI Theme to App */}
+                <ThemeProvider theme={theme}>
+                    {/* Instantiate Primary Application Router */}
+                    <Router history={history}>
+                        <Switch>
+                            <Route exact path={"/"} component={HomePage} />
+                            <Redirect to="/" />
+                        </Switch>
+                    </Router>
+                </ThemeProvider>
+            </Provider>
         </React.Fragment>
     );
 };
