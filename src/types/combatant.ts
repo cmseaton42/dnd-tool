@@ -1,24 +1,28 @@
+export interface IStatusConditionModifiers {
+    health: number;
+    speed: number;
+    armorClass: number;
+}
+
 export interface IStatusCondition {
     name: string;
-    modifiers: {
-        health: number;
-        speed: number;
-        armorClass: number;
-    };
+    modifiers: IStatusConditionModifiers;
     description: string;
 }
 
 export type CombantantTypes = "character" | "hostile" | "ally" | "neutral";
+
+export interface ICombatantHitPoints {
+    max: number;
+    remaining: number;
+    temporary: number;
+}
 
 export interface ICombatant {
     id: string;
     name: string;
     type: CombantantTypes;
     conditions: IStatusCondition[];
-    hitPoints: {
-        max: number;
-        remaining: number;
-        temporary: number;
-    };
+    hitPoints: ICombatantHitPoints;
     armorClass: number;
 }

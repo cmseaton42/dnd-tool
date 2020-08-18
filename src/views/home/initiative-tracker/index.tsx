@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { RootState } from "store";
 import { CombantantActionTypes, ADD_COMBATANT } from "store/combatant/types";
-import { v4 as uuid } from "uuid";
 
 import Typography from "@material-ui/core/Typography";
 

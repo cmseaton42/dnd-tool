@@ -1,11 +1,15 @@
 import React from "react";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { ICombatant } from "types/combatant";
+import { ICombatant, IMaterialColor } from "types";
+
+import { HealthBar } from "components/health-bar";
 
 import Typography from "@material-ui/core/Typography";
+import Chip from "@material-ui/core/Chip";
 
-import NameIcon from "@material-ui/icons/PersonRounded";
-import { red, green, blue, orange } from "@material-ui/core/colors";
+import HeartIcon from "@material-ui/icons/FavoriteRounded";
+import { red, green, blue, orange, amber } from "@material-ui/core/colors";
 
 export interface ICombatantCardProps {
     combatant: ICombatant;
@@ -13,10 +17,39 @@ export interface ICombatantCardProps {
 
 export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const cls = useStyles({ color: getBackgroundByType(combatant.type) });
+    const { hitPoints: hp, name, type, id, conditions, armorClass: ac } = combatant;
+
+    const isHealthy = hp.remaining >= hp.max * 0.666;
+    const isBloodied = hp.remaining <= hp.remaining * 0.3333;
+    const isInjured = !isHealthy && !isBloodied;
 
     return (
-        <div className={cls.container}>
-            <NameIcon /> <Typography variant="h5">{combatant.name || "John Doe"}</Typography>
+        <div className={clsx(cls.container, cls.wrapper)}>
+            {/* Combatant Name Display */}
+            <div className={cls.container}>
+                <Typography color="primary" variant="h5" noWrap>
+                    {name || "John Doe"}
+                </Typography>
+                <Chip
+                    className={cls.typeChip}
+                    label={type === "character" ? "PC" : type.toLocaleUpperCase()}
+                    size="small"
+                />
+            </div>
+
+            <HealthBar hp={hp} />
+
+            {/* Combatant Health Meter */}
+            <div className={cls.container}>
+                <HeartIcon className={cls.bloodied} />
+                <Typography style={{ marginRight: 2 }} className={clsx(cls.bloodied, cls.inline)}>
+                    HP:
+                </Typography>
+                {isHealthy && <Typography className={clsx(cls.healthy, cls.inline)}>{`${hp.remaining}`}</Typography>}
+                {isInjured && <Typography className={clsx(cls.injured, cls.inline)}>{`${hp.remaining}`}</Typography>}
+                {isBloodied && <Typography className={clsx(cls.bloodied, cls.inline)}>{`${hp.remaining}`}</Typography>}
+                <Typography className={clsx(cls.healthy, cls.inline)}>{`/${hp.max}`}</Typography>
+            </div>
         </div>
     );
 };
@@ -26,35 +59,40 @@ interface IStyleProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        border: (props: IStyleProps) => `${props.color[400]} 2px solid`,
+        margin: theme.spacing(0.3),
+        padding: theme.spacing(2),
+        borderRadius: 5,
+        width: "100%",
+    },
     container: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: theme.spacing(0.3),
-        padding: theme.spacing(2),
-        width: "100%",
-        background: theme.palette.grey[100],
-        border: `${theme.palette.secondary.main} 2px solid`,
-        borderRadius: 5,
+    },
+    typeChip: {
+        color: theme.palette.common.white,
+        fontWeight: "bold",
+        marginLeft: theme.spacing(0.5),
+        background: (props: IStyleProps) => props.color[400],
+    },
+    spacer: {
+        flexGrow: 1,
+    },
+    healthy: {
+        color: green[400],
+    },
+    injured: {
+        color: amber[400],
+    },
+    bloodied: {
+        color: red[400],
+    },
+    inline: {
+        display: "inline",
     },
 }));
-
-interface IMaterialColor {
-    0: string;
-    100: string;
-    200: string;
-    300: string;
-    400: string;
-    500: string;
-    600: string;
-    700: string;
-    800: string;
-    900: string;
-    A100: string;
-    A200: string;
-    A400: string;
-    A700: string;
-}
 
 // @ts-ignore
 const getBackgroundByType: (type: CombantantTypes) => IMaterialColor = (type) => {
