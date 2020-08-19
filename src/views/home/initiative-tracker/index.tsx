@@ -47,6 +47,7 @@ export const InitiativeTracker: React.FC = () => {
                     Monster
                 </Button>
             </div>
+
             {combatants.map((c) => (
                 <CombatantCard key={c.id} combatant={c} />
             ))}

@@ -5,7 +5,7 @@ import { ICombatantHitPoints } from "types";
 
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { red, green, blue, orange, amber } from "@material-ui/core/colors";
+import { red, green, amber } from "@material-ui/core/colors";
 
 export interface IHealthBarProps {
     hp: ICombatantHitPoints;
@@ -15,7 +15,7 @@ export interface IHealthBarProps {
 
 export const HealthBar: React.FC<IHealthBarProps> = ({ hp, height, width }) => {
     const isHealthy = hp.remaining >= hp.max * 0.666;
-    const isBloodied = hp.remaining <= hp.remaining * 0.3333;
+    const isBloodied = hp.remaining <= hp.max * 0.3333;
     const isInjured = !isHealthy && !isBloodied;
 
     const maxWidth = width || 100;
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: (props: IStyleProps) => Math.round(props.height / 2),
         height: (props: IStyleProps) => props.height,
         width: (props: IStyleProps) => props.remaining,
-        transition: "all 200ms ease-in-out",
+        transition: "all 275ms ease-in-out",
     },
     healthy: {
         background: green["A400"],
