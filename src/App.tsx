@@ -103,12 +103,12 @@ theme = responsiveFontSizes(theme);
 
 // Setup browser history API for
 //  usage with Google Analytics
-const history = createBrowserHistory();
+const history = createBrowserHistory({ basename: "/dnd-tool/" });
 
 // Initialize Google Analytics page view tracking
 history.listen((location) => {
-    ReactGA.set({ page: location.pathname }); // Update the user's current page
-    ReactGA.pageview(location.pathname); // Record a pageview for the given page
+    ReactGA.set({ page: window.location.pathname }); // Update the user's current page
+    ReactGA.pageview(window.location.pathname); // Record a pageview for the given page
 });
 
 // Setup Google Analytics
@@ -117,6 +117,10 @@ ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS as string);
 // Setup App
 // @ts-ignore
 export const App: React.FC = () => {
+    React.useEffect(() => {
+        ReactGA.pageview(window.location.pathname);
+    }, []);
+
     return (
         <React.Fragment>
             {/* Setup CSS Baseline for Material UI */}

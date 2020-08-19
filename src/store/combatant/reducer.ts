@@ -83,7 +83,7 @@ export function combatantReducer(state = initialState, action: CombantantActionT
                 return {
                     combatants: [...state.combatants, { ...copied, id: uuid() }],
                 };
-
+            else return state;
         default:
             return state;
     }
