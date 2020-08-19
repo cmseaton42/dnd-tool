@@ -5,6 +5,7 @@ import {
     UPDATE_REMAINING_HP,
     UPDATE_INITIATIVE,
     UPDATE_COMBATANT,
+    ROLL_INITIATIVE,
     CombantantActionTypes,
 } from "./types";
 
@@ -49,5 +50,11 @@ export function updateCombatant(id: string, combatant: ICombatant): CombantantAc
             id,
             combatant,
         },
+    };
+}
+
+export function rollInitiative(): CombantantActionTypes {
+    return {
+        type: ROLL_INITIATIVE,
     };
 }

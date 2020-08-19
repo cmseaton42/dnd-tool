@@ -1,5 +1,6 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { Dispatch } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { CombantantActionTypes, ROLL_INITIATIVE } from "store/combatant/types";
 import { makeStyles } from "@material-ui/core/styles";
 import { RootState } from "store";
 import { AddCombatantForm } from "./form-add-combatant";
@@ -10,13 +11,14 @@ import Button from "@material-ui/core/Button";
 
 import { CombatantCard } from "./combatant-card";
 import SwordIcon from "./swords.svg";
-import PersonRounded from "@material-ui/icons/PersonRounded";
-import MonsterIcon from "@material-ui/icons/PetsRounded";
+import PersonIcon from "@material-ui/icons/PersonRounded";
+import RollInitIcon from "@material-ui/icons/PhotoFilter";
 
 export const InitiativeTracker: React.FC = () => {
     const cls = useStyles();
     const { combatants } = useSelector((state: RootState) => state.combantants);
     const [openCombatantForm, setOpenCombatantForm] = React.useState(false);
+    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     return (
         <div className={cls.wrapper}>
@@ -32,7 +34,7 @@ export const InitiativeTracker: React.FC = () => {
                     style={{ margin: 2, color: "white", fontWeight: "bold" }}
                     color="secondary"
                     variant="contained"
-                    startIcon={<PersonRounded />}
+                    startIcon={<PersonIcon />}
                     onClick={() => setOpenCombatantForm(true)}
                 >
                     Combatant
@@ -41,9 +43,10 @@ export const InitiativeTracker: React.FC = () => {
                     style={{ margin: 2, color: "white", fontWeight: "bold" }}
                     color="secondary"
                     variant="contained"
-                    startIcon={<MonsterIcon />}
+                    onClick={() => dispatch({ type: ROLL_INITIATIVE })}
+                    startIcon={<RollInitIcon />}
                 >
-                    Monster
+                    Roll Initiative
                 </Button>
             </div>
 

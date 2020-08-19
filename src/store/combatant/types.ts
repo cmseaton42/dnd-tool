@@ -19,6 +19,7 @@ export const DELETE_COMBATANT = "DELETE_COMBATANT";
 export const UPDATE_COMBATANT = "UPDATE_COMBATANT";
 export const UPDATE_REMAINING_HP = "UPDATE_REMAINING_HP";
 export const UPDATE_INITIATIVE = "UPDATE_INITIATIVE";
+export const ROLL_INITIATIVE = "ROLL_INITIATIVE";
 
 interface IAddCombatantAction {
     type: typeof ADD_COMBATANT;
@@ -45,9 +46,14 @@ interface IUpdateCombatantAction {
     payload: IUpdateCombatantPayload;
 }
 
+interface IRollInitiativeAction {
+    type: typeof ROLL_INITIATIVE;
+}
+
 export type CombantantActionTypes =
     | IAddCombatantAction
     | IDeleteCombatantAction
     | IUpdateRemainingHpAction
     | IUpdateInitiativeAction
-    | IUpdateCombatantAction;
+    | IUpdateCombatantAction
+    | IRollInitiativeAction;

@@ -6,6 +6,7 @@ import {
     UPDATE_REMAINING_HP,
     UPDATE_INITIATIVE,
     UPDATE_COMBATANT,
+    ROLL_INITIATIVE,
 } from "./types";
 
 const initialState: CombatantState = {
@@ -59,6 +60,16 @@ export function combatantReducer(state = initialState, action: CombantantActionT
                 combatants: state.combatants.map((c) => {
                     if (c.id !== action.payload.id) return c;
                     return action.payload.combatant;
+                }),
+            };
+
+        case ROLL_INITIATIVE:
+            return {
+                combatants: state.combatants.map((c) => {
+                    return {
+                        ...c,
+                        initiative: Math.floor(Math.random() * 20) + 1 + c.initiativeModifier,
+                    };
                 }),
             };
 
