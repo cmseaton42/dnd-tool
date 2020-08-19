@@ -25,6 +25,7 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
     const [type, setType] = React.useState<CombantantTypes>("character");
     const [hp, setHp] = React.useState<ICombatantHitPoints>({ max: 10, remaining: 10, temporary: 0 });
     const [ac, setAc] = React.useState(13);
+    const [initMod, setInitMod] = React.useState(0);
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     // Evaluate form validity
@@ -32,7 +33,8 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
     const isValidType = type.length > 0;
     const isValidHp = hp.max >= hp.remaining && hp.max > 0 && hp.remaining > 0 && hp.temporary >= 0;
     const isValidAc = ac > 0;
-    const formValid = isValidName && isValidType && isValidHp && isValidAc;
+    const isValidInitMod = initMod >= -10 && initMod <= 10;
+    const formValid = isValidName && isValidType && isValidHp && isValidAc && isValidInitMod;
 
     const clearForm = () => {
         setName("Combatant");
@@ -50,7 +52,8 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
                 armorClass: ac,
                 conditions: [],
                 hitPoints: hp,
-                initiative: 1,
+                initiative: 10,
+                initiativeModifier: initMod,
                 name,
                 type,
             },
@@ -112,6 +115,18 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
                             onChange={(e) => {
                                 const newHp = parseInt(e.target.value);
                                 if (newHp > 0) setHp({ ...hp, max: newHp, remaining: newHp });
+                            }}
+                            required
+                        />
+                        <TextField
+                            margin="dense"
+                            label="Initiative Mod"
+                            type="number"
+                            fullWidth
+                            value={initMod}
+                            onChange={(e) => {
+                                const newInitMod = parseInt(e.target.value);
+                                if (newInitMod >= -10 && newInitMod <= 10) setInitMod(newInitMod);
                             }}
                             required
                         />

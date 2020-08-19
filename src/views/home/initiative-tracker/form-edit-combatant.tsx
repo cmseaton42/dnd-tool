@@ -25,6 +25,7 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
     const [type, setType] = React.useState<CombantantTypes>(combatant.type);
     const [hp, setHp] = React.useState<ICombatantHitPoints>(combatant.hitPoints);
     const [ac, setAc] = React.useState(combatant.armorClass);
+    const [initMod, setInitMod] = React.useState(combatant.initiativeModifier);
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     // Evaluate form validity
@@ -32,7 +33,8 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
     const isValidType = type.length > 0;
     const isValidHp = hp.max >= hp.remaining && hp.max > 0 && hp.remaining > 0 && hp.temporary >= 0;
     const isValidAc = ac > 0;
-    const formValid = isValidName && isValidType && isValidHp && isValidAc;
+    const isValidInitMod = initMod >= -10 && initMod <= 10;
+    const formValid = isValidName && isValidType && isValidHp && isValidAc && isValidInitMod;
 
     // Form submission handler
     const handleSubmit = () => {
@@ -46,6 +48,7 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
                     conditions: combatant.conditions,
                     hitPoints: hp,
                     initiative: combatant.initiative,
+                    initiativeModifier: initMod,
                     name,
                     type,
                 },
@@ -107,6 +110,18 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
                             onChange={(e) => {
                                 const newHp = parseInt(e.target.value);
                                 if (newHp > 0) setHp({ ...hp, max: newHp, remaining: newHp });
+                            }}
+                            required
+                        />
+                        <TextField
+                            margin="dense"
+                            label="Initiative Mod"
+                            type="number"
+                            fullWidth
+                            value={initMod}
+                            onChange={(e) => {
+                                const newInitMod = parseInt(e.target.value);
+                                if (newInitMod >= -10 && newInitMod <= 10) setInitMod(newInitMod);
                             }}
                             required
                         />

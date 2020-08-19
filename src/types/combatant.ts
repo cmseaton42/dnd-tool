@@ -26,5 +26,7 @@ export interface ICombatant {
     hitPoints: ICombatantHitPoints;
     armorClass: number;
     initiative: number;
+    initiativeModifier: number;
     monsterUrl?: string;
+    characterUrl?: string;
 }

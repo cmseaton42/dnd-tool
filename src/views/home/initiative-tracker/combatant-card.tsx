@@ -12,6 +12,7 @@ import { HealthBar } from "components/health-bar";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Tooltip from "@material-ui/core/Tooltip";
+import Badge from "@material-ui/core/Badge";
 
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import HeartIcon from "@material-ui/icons/FavoriteRounded";
@@ -32,6 +33,7 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
     const [openInitDialog, setOpenInitDialog] = React.useState(false);
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
+    const [showBadge, setShowBadge] = React.useState(false);
 
     const isDead = combatant.hitPoints.remaining <= 0;
 
@@ -45,16 +47,7 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                 <Tooltip title={type}>
                     <Chip className={cls.typeChip} label={type === "character" ? "PC" : type} size="small" />
                 </Tooltip>
-                <Tooltip title={`Initiative: ${initiative}`}>
-                    <Chip
-                        className={cls.initChip}
-                        label={initiative}
-                        size="small"
-                        onClick={() => setOpenInitDialog(true)}
-                        icon={<InitiativeIcon className={cls.initIcon} />}
-                        clickable
-                    />
-                </Tooltip>
+
                 <Tooltip title={`Armor Class: ${ac}`}>
                     <Chip
                         className={cls.typeChip}
@@ -62,6 +55,28 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                         size="small"
                         icon={<ShieldIcon className={cls.shieldIcon} />}
                     />
+                </Tooltip>
+                <Tooltip title={`Initiative: ${initiative}`}>
+                    <Badge
+                        color="secondary"
+                        badgeContent={
+                            combatant.initiativeModifier >= 0
+                                ? `+${combatant.initiativeModifier}`
+                                : `-${combatant.initiativeModifier}`
+                        }
+                        invisible={!showBadge}
+                    >
+                        <div onMouseEnter={() => setShowBadge(true)} onMouseLeave={() => setShowBadge(false)}>
+                            <Chip
+                                className={cls.initChip}
+                                label={initiative}
+                                size="small"
+                                onClick={() => setOpenInitDialog(true)}
+                                icon={<InitiativeIcon className={cls.initIcon} />}
+                                clickable
+                            />
+                        </div>
+                    </Badge>
                 </Tooltip>
                 <Tooltip title={"Edit Combatant Details"}>
                     <EditIcon onClick={() => setOpenEditDialog(true)} className={clsx(cls.icon, cls.edit)} />
