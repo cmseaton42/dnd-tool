@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { ICombatantHitPoints } from "types";
+import { ICombatantHitPoints } from "types/combatant";
 
 import Tooltip from "@material-ui/core/Tooltip";
 

@@ -1,4 +1,12 @@
-import { CombatantState, CombantantActionTypes, ADD_COMBATANT, DELETE_COMBATANT, UPDATE_REMAINING_HP } from "./types";
+import {
+    CombatantState,
+    CombantantActionTypes,
+    ADD_COMBATANT,
+    DELETE_COMBATANT,
+    UPDATE_REMAINING_HP,
+    UPDATE_INITIATIVE,
+    UPDATE_COMBATANT,
+} from "./types";
 
 const initialState: CombatantState = {
     combatants: [],
@@ -27,6 +35,25 @@ export function combatantReducer(state = initialState, action: CombantantActionT
                             remaining: action.payload.value,
                         },
                     };
+                }),
+            };
+
+        case UPDATE_INITIATIVE:
+            return {
+                combatants: state.combatants.map((c) => {
+                    if (c.id !== action.payload.id) return c;
+                    return {
+                        ...c,
+                        initiative: action.payload.value,
+                    };
+                }),
+            };
+
+        case UPDATE_COMBATANT:
+            return {
+                combatants: state.combatants.map((c) => {
+                    if (c.id !== action.payload.id) return c;
+                    return action.payload.combatant;
                 }),
             };
 

@@ -4,14 +4,21 @@ export interface CombatantState {
     combatants: ICombatant[];
 }
 
-export interface IUpdateRemainingHpPayload {
+export interface IUpdateValuePayload {
     id: string;
     value: number;
 }
 
+export interface IUpdateCombatantPayload {
+    id: string;
+    combatant: ICombatant;
+}
+
 export const ADD_COMBATANT = "ADD_COMBATANT";
 export const DELETE_COMBATANT = "DELETE_COMBATANT";
+export const UPDATE_COMBATANT = "UPDATE_COMBATANT";
 export const UPDATE_REMAINING_HP = "UPDATE_REMAINING_HP";
+export const UPDATE_INITIATIVE = "UPDATE_INITIATIVE";
 
 interface IAddCombatantAction {
     type: typeof ADD_COMBATANT;
@@ -25,7 +32,22 @@ interface IDeleteCombatantAction {
 
 interface IUpdateRemainingHpAction {
     type: typeof UPDATE_REMAINING_HP;
-    payload: IUpdateRemainingHpPayload;
+    payload: IUpdateValuePayload;
 }
 
-export type CombantantActionTypes = IAddCombatantAction | IDeleteCombatantAction | IUpdateRemainingHpAction;
+interface IUpdateInitiativeAction {
+    type: typeof UPDATE_INITIATIVE;
+    payload: IUpdateValuePayload;
+}
+
+interface IUpdateCombatantAction {
+    type: typeof UPDATE_COMBATANT;
+    payload: IUpdateCombatantPayload;
+}
+
+export type CombantantActionTypes =
+    | IAddCombatantAction
+    | IDeleteCombatantAction
+    | IUpdateRemainingHpAction
+    | IUpdateInitiativeAction
+    | IUpdateCombatantAction;

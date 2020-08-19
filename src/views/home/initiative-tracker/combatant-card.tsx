@@ -1,24 +1,26 @@
 import React, { Dispatch } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { ICombatant, IMaterialColor } from "types";
+import { ICombatant } from "types/combatant";
+import { IMaterialColor } from "types/material";
 import { useDispatch } from "react-redux";
 import { CombantantActionTypes, DELETE_COMBATANT, UPDATE_REMAINING_HP } from "store/combatant/types";
-
+import { UpdateInitForm } from "./form-update-initiative";
+import { EditCombatantForm } from "./form-edit-combatant";
 import { HealthBar } from "components/health-bar";
 
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
-import TextField from "@material-ui/core/TextField";
 
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import HeartIcon from "@material-ui/icons/FavoriteRounded";
 import ShieldIcon from "@material-ui/icons/SecurityRounded";
 import InitiativeIcon from "@material-ui/icons/WatchLaterRounded";
+import EditIcon from "@material-ui/icons/EditRounded";
 import SkullIcon from "./skull.svg";
-import { red, green, blue, orange, yellow } from "@material-ui/core/colors";
+import { red, green, blue, orange, yellow, grey } from "@material-ui/core/colors";
 
 export interface ICombatantCardProps {
     combatant: ICombatant;
@@ -29,6 +31,8 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const cls = useStyles({ color: typeColor });
     const { hitPoints: hp, name, type, id, armorClass: ac, initiative } = combatant;
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+    const [openInitDialog, setOpenInitDialog] = React.useState(false);
+    const [openEditDialog, setOpenEditDialog] = React.useState(false);
 
     const isDead = combatant.hitPoints.remaining <= 0;
 
@@ -47,7 +51,9 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                         className={cls.initChip}
                         label={initiative}
                         size="small"
+                        onClick={() => setOpenInitDialog(true)}
                         icon={<InitiativeIcon className={cls.initIcon} />}
+                        clickable
                     />
                 </Tooltip>
                 <Tooltip title={`Armor Class: ${ac}`}>
@@ -58,18 +64,18 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                         icon={<ShieldIcon className={cls.shieldIcon} />}
                     />
                 </Tooltip>
-
+                <Tooltip title={"Edit Combatant Details"}>
+                    <EditIcon onClick={() => setOpenEditDialog(true)} className={clsx(cls.icon, cls.edit)} />
+                </Tooltip>
                 <Tooltip title={"Delete Combatant"}>
-                    <IconButton
+                    <DeleteIcon
                         onClick={() => dispatch({ type: DELETE_COMBATANT, id })}
-                        style={{ color: red[400] }}
-                        size="small"
-                    >
-                        <DeleteIcon />
-                    </IconButton>
+                        className={clsx(cls.icon, cls.delete)}
+                    />
                 </Tooltip>
             </div>
 
+            {/* Spacing Between Elements */}
             <div className={cls.spacer}></div>
 
             {/* Combatant Health Meter */}
@@ -96,6 +102,10 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                     min={0}
                 />
             </div>
+
+            {/* Form Controls */}
+            <UpdateInitForm open={openInitDialog} onClose={() => setOpenInitDialog(false)} combatant={combatant} />
+            <EditCombatantForm open={openEditDialog} onClose={() => setOpenEditDialog(false)} combatant={combatant} />
         </div>
     );
 };
@@ -114,6 +124,24 @@ const useStyles = makeStyles((theme) => ({
         background: (props: IStyleProps) => props.color[50],
         overflowX: "auto",
         ...theme.scrollbar,
+    },
+    icon: {
+        padding: theme.spacing(0.2),
+        "&:hover": {
+            cursor: "pointer",
+        },
+    },
+    edit: {
+        color: grey[400],
+        "&:hover": {
+            color: grey[500],
+        },
+    },
+    delete: {
+        color: red[300],
+        "&:hover": {
+            color: red[500],
+        },
     },
     container: {
         display: "flex",
@@ -137,6 +165,11 @@ const useStyles = makeStyles((theme) => ({
         background: (props: IStyleProps) => props.color[400],
         "&:hover": {
             cursor: "pointer",
+            background: (props: IStyleProps) => props.color[600],
+            transition: "all 200ms ease-in-out",
+        },
+        "&:focus": {
+            background: (props: IStyleProps) => props.color[400],
         },
     },
     initIcon: {

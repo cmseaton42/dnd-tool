@@ -36,7 +36,6 @@ export const InitiativeTracker: React.FC = () => {
                 >
                     Combatant
                 </Button>
-                <AddCombatantForm open={openCombatantForm} onClose={() => setOpenCombatantForm(false)} />
                 <Button
                     style={{ margin: 2, color: "white", fontWeight: "bold" }}
                     color="secondary"
@@ -47,9 +46,15 @@ export const InitiativeTracker: React.FC = () => {
                 </Button>
             </div>
 
-            {combatants.map((c) => (
-                <CombatantCard key={c.id} combatant={c} />
-            ))}
+            {/* Form Controls */}
+            <AddCombatantForm open={openCombatantForm} onClose={() => setOpenCombatantForm(false)} />
+
+            {/* Display Combatant List */}
+            {combatants
+                .sort((a, b) => b.initiative - a.initiative)
+                .map((c) => (
+                    <CombatantCard key={c.id} combatant={c} />
+                ))}
         </div>
     );
 };

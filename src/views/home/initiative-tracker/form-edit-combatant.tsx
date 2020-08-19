@@ -1,8 +1,7 @@
 import React, { Dispatch } from "react";
-import { CombantantTypes, ICombatantHitPoints } from "types/combatant";
+import { CombantantTypes, ICombatantHitPoints, ICombatant } from "types/combatant";
 import { useDispatch } from "react-redux";
-import { CombantantActionTypes, ADD_COMBATANT } from "store/combatant/types";
-import { v4 as uuid } from "uuid";
+import { CombantantActionTypes, UPDATE_COMBATANT } from "store/combatant/types";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,16 +14,17 @@ import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
-export interface IAddCombatantFormProps {
+export interface IEditCombatantFormProps {
     open: boolean;
     onClose: () => void;
+    combatant: ICombatant;
 }
 
-export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClose }) => {
-    const [name, setName] = React.useState("Combatant");
-    const [type, setType] = React.useState<CombantantTypes>("character");
-    const [hp, setHp] = React.useState<ICombatantHitPoints>({ max: 10, remaining: 10, temporary: 0 });
-    const [ac, setAc] = React.useState(13);
+export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onClose, combatant }) => {
+    const [name, setName] = React.useState(combatant.name);
+    const [type, setType] = React.useState<CombantantTypes>(combatant.type);
+    const [hp, setHp] = React.useState<ICombatantHitPoints>(combatant.hitPoints);
+    const [ac, setAc] = React.useState(combatant.armorClass);
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     // Evaluate form validity
@@ -34,29 +34,24 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
     const isValidAc = ac > 0;
     const formValid = isValidName && isValidType && isValidHp && isValidAc;
 
-    const clearForm = () => {
-        setName("Combatant");
-        setType("character");
-        setHp({ max: 0, remaining: 0, temporary: 0 });
-        setAc(13);
-    };
-
     // Form submission handler
     const handleSubmit = () => {
         dispatch({
-            type: ADD_COMBATANT,
+            type: UPDATE_COMBATANT,
             payload: {
-                id: uuid(),
-                armorClass: ac,
-                conditions: [],
-                hitPoints: hp,
-                initiative: 1,
-                name,
-                type,
+                id: combatant.id,
+                combatant: {
+                    id: combatant.id,
+                    armorClass: ac,
+                    conditions: combatant.conditions,
+                    hitPoints: hp,
+                    initiative: combatant.initiative,
+                    name,
+                    type,
+                },
             },
         });
 
-        clearForm();
         onClose();
     };
 
@@ -74,7 +69,7 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
 
     return (
         <Dialog maxWidth="sm" open={open} onClose={() => onClose()}>
-            <DialogTitle>Add Combatant</DialogTitle>
+            <DialogTitle>Edit Combatant</DialogTitle>
 
             {/* Form content */}
             <DialogContent>

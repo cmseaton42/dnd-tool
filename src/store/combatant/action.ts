@@ -1,5 +1,12 @@
 import { ICombatant } from "types/combatant";
-import { ADD_COMBATANT, DELETE_COMBATANT, UPDATE_REMAINING_HP, CombantantActionTypes } from "./types";
+import {
+    ADD_COMBATANT,
+    DELETE_COMBATANT,
+    UPDATE_REMAINING_HP,
+    UPDATE_INITIATIVE,
+    UPDATE_COMBATANT,
+    CombantantActionTypes,
+} from "./types";
 
 export function addCombatant(newCombatant: ICombatant): CombantantActionTypes {
     return {
@@ -21,6 +28,26 @@ export function updateCombatantRemainingHp(id: string, value: number): Combantan
         payload: {
             id,
             value,
+        },
+    };
+}
+
+export function updateCombatantInitiative(id: string, value: number): CombantantActionTypes {
+    return {
+        type: UPDATE_INITIATIVE,
+        payload: {
+            id,
+            value,
+        },
+    };
+}
+
+export function updateCombatant(id: string, combatant: ICombatant): CombantantActionTypes {
+    return {
+        type: UPDATE_COMBATANT,
+        payload: {
+            id,
+            combatant,
         },
     };
 }
