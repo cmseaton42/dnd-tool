@@ -18,22 +18,19 @@ export interface ICombatantCardProps {
 }
 
 export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
-    const cls = useStyles({ color: getBackgroundByType(combatant.type) });
+    const typeColor = getBackgroundByType(combatant.type);
+    const cls = useStyles({ color: typeColor });
     const { hitPoints: hp, name, type, id, armorClass: ac } = combatant;
 
     return (
         <div className={clsx(cls.container, cls.wrapper)}>
             {/* Combatant Name Display */}
             <div className={cls.container}>
-                <Typography color="primary" variant="h5" noWrap>
+                <Typography style={{ color: typeColor[500] }} variant="h5" noWrap>
                     {name || "Rezkin"}
                 </Typography>
-                <Tooltip title={type.toLocaleUpperCase()}>
-                    <Chip
-                        className={cls.typeChip}
-                        label={type === "character" ? "PC" : type.toLocaleUpperCase()}
-                        size="small"
-                    />
+                <Tooltip title={type}>
+                    <Chip className={cls.typeChip} label={type === "character" ? "PC" : type} size="small" />
                 </Tooltip>
                 <Tooltip title={`Armor Class: ${ac}`}>
                     <Chip
@@ -68,6 +65,8 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 5,
         width: "100%",
         background: (props: IStyleProps) => props.color[50],
+        overflowX: "auto",
+        ...theme.scrollbar,
     },
     container: {
         display: "flex",

@@ -11,8 +11,8 @@ import { store } from "./store";
 import { HomePage } from "./views/home";
 
 // Define global style constants
-const PRIMARY_COLOR = "#586994";
-const SECONDARY_COLOR = "#a5d8ff";
+const PRIMARY_COLOR = "#4289b3";
+const SECONDARY_COLOR = "#6153cc";
 
 declare module "@material-ui/core/styles/createMuiTheme" {
     interface Theme {

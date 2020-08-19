@@ -25,4 +25,5 @@ export interface ICombatant {
     conditions: IStatusCondition[];
     hitPoints: ICombatantHitPoints;
     armorClass: number;
+    initiative: number;
 }
