@@ -21,7 +21,7 @@ export interface IHealthBarProps {
 }
 
 export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width, showTools, color }) => {
-    const [amount, setAmount] = React.useState(1);
+    const [amount, setAmount] = React.useState(5);
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     const { hitPoints: hp } = combatant;
@@ -46,7 +46,7 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
             },
         });
 
-        setAmount(1);
+        setAmount(5);
     };
 
     return (
@@ -72,16 +72,18 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
                     <Tooltip title="Apply Indicated Damage">
                         <MinusIcon onClick={updateHandler("REMOVE")} className={clsx(cls.icon, cls.minus)} />
                     </Tooltip>
-                    <input
-                        type="number"
-                        value={amount}
-                        onChange={(e) => {
-                            const value = Math.round(parseInt(e.target.value));
-                            if (value > 0) setAmount(value);
-                        }}
-                        className={cls.healthInput}
-                        min={1}
-                    />
+                    <Tooltip title="Amount to Adjust Health By">
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => {
+                                const value = Math.round(parseInt(e.target.value));
+                                if (value > 0) setAmount(value);
+                            }}
+                            className={cls.healthInput}
+                            min={1}
+                        />
+                    </Tooltip>
                     <Tooltip title="Heal Indicated Ammount">
                         <AddIcon onClick={updateHandler("ADD")} className={clsx(cls.icon, cls.plus)} />
                     </Tooltip>
