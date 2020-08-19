@@ -1,14 +1,18 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { ICombatant, IMaterialColor } from "types";
+import { useDispatch } from "react-redux";
+import { CombantantActionTypes, DELETE_COMBATANT } from "store/combatant/types";
 
 import { HealthBar } from "components/health-bar";
 
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
 
+import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import HeartIcon from "@material-ui/icons/FavoriteRounded";
 import ShieldIcon from "@material-ui/icons/SecurityRounded";
 import { red, green, blue, orange, yellow } from "@material-ui/core/colors";
@@ -21,6 +25,7 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const typeColor = getBackgroundByType(combatant.type);
     const cls = useStyles({ color: typeColor });
     const { hitPoints: hp, name, type, id, armorClass: ac } = combatant;
+    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     return (
         <div className={clsx(cls.container, cls.wrapper)}>
@@ -39,6 +44,15 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                         size="small"
                         icon={<ShieldIcon className={cls.shieldIcon} />}
                     />
+                </Tooltip>
+                <Tooltip title={"Delete Combatant"}>
+                    <IconButton
+                        onClick={() => dispatch({ type: DELETE_COMBATANT, id })}
+                        style={{ color: red[400] }}
+                        size="small"
+                    >
+                        <DeleteIcon />
+                    </IconButton>
                 </Tooltip>
             </div>
 
