@@ -7,9 +7,11 @@ import { HealthBar } from "components/health-bar";
 
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import HeartIcon from "@material-ui/icons/FavoriteRounded";
-import { red, green, blue, orange, amber } from "@material-ui/core/colors";
+import ShieldIcon from "@material-ui/icons/SecurityRounded";
+import { red, green, blue, orange, yellow } from "@material-ui/core/colors";
 
 export interface ICombatantCardProps {
     combatant: ICombatant;
@@ -17,38 +19,38 @@ export interface ICombatantCardProps {
 
 export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const cls = useStyles({ color: getBackgroundByType(combatant.type) });
-    const { hitPoints: hp, name, type, id, conditions, armorClass: ac } = combatant;
-
-    const isHealthy = hp.remaining >= hp.max * 0.666;
-    const isBloodied = hp.remaining <= hp.remaining * 0.3333;
-    const isInjured = !isHealthy && !isBloodied;
+    const { hitPoints: hp, name, type, id, armorClass: ac } = combatant;
 
     return (
         <div className={clsx(cls.container, cls.wrapper)}>
             {/* Combatant Name Display */}
             <div className={cls.container}>
                 <Typography color="primary" variant="h5" noWrap>
-                    {name || "John Doe"}
+                    {name || "Rezkin"}
                 </Typography>
-                <Chip
-                    className={cls.typeChip}
-                    label={type === "character" ? "PC" : type.toLocaleUpperCase()}
-                    size="small"
-                />
+                <Tooltip title={type.toLocaleUpperCase()}>
+                    <Chip
+                        className={cls.typeChip}
+                        label={type === "character" ? "PC" : type.toLocaleUpperCase()}
+                        size="small"
+                    />
+                </Tooltip>
+                <Tooltip title={`Armor Class: ${ac}`}>
+                    <Chip
+                        className={cls.typeChip}
+                        label={ac}
+                        size="small"
+                        icon={<ShieldIcon className={cls.shieldIcon} />}
+                    />
+                </Tooltip>
             </div>
 
-            <HealthBar hp={hp} />
+            <div className={cls.spacer}></div>
 
             {/* Combatant Health Meter */}
             <div className={cls.container}>
-                <HeartIcon className={cls.bloodied} />
-                <Typography style={{ marginRight: 2 }} className={clsx(cls.bloodied, cls.inline)}>
-                    HP:
-                </Typography>
-                {isHealthy && <Typography className={clsx(cls.healthy, cls.inline)}>{`${hp.remaining}`}</Typography>}
-                {isInjured && <Typography className={clsx(cls.injured, cls.inline)}>{`${hp.remaining}`}</Typography>}
-                {isBloodied && <Typography className={clsx(cls.bloodied, cls.inline)}>{`${hp.remaining}`}</Typography>}
-                <Typography className={clsx(cls.healthy, cls.inline)}>{`/${hp.max}`}</Typography>
+                <HeartIcon fontSize="small" style={{ color: red["A400"], marginRight: 2 }} />
+                <HealthBar hp={hp} />
             </div>
         </div>
     );
@@ -65,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         borderRadius: 5,
         width: "100%",
+        background: (props: IStyleProps) => props.color[50],
     },
     container: {
         display: "flex",
@@ -77,20 +80,12 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(0.5),
         background: (props: IStyleProps) => props.color[400],
     },
+    shieldIcon: {
+        color: yellow[600],
+        fontWeight: "bold",
+    },
     spacer: {
         flexGrow: 1,
-    },
-    healthy: {
-        color: green[400],
-    },
-    injured: {
-        color: amber[400],
-    },
-    bloodied: {
-        color: red[400],
-    },
-    inline: {
-        display: "inline",
     },
 }));
 

@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { ICombatantHitPoints } from "types";
 
+import Tooltip from "@material-ui/core/Tooltip";
+
 import { red, green, blue, orange, amber } from "@material-ui/core/colors";
 
 export interface IHealthBarProps {
@@ -23,9 +25,11 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ hp, height, width }) => {
     const bg = isHealthy ? cls.healthy : isInjured ? cls.injured : isBloodied ? cls.bloodied : null;
 
     return (
-        <div className={cls.outer}>
-            <div className={clsx(cls.inner, bg)}></div>
-        </div>
+        <Tooltip title={`HP: ${hp.remaining} / ${hp.max} - Temp: ${hp.temporary}`}>
+            <div className={cls.outer}>
+                <div className={clsx(cls.inner, bg)}></div>
+            </div>
+        </Tooltip>
     );
 };
 
@@ -53,12 +57,12 @@ const useStyles = makeStyles((theme) => ({
         transition: "all 200ms ease-in-out",
     },
     healthy: {
-        background: green[300],
+        background: green["A400"],
     },
     injured: {
-        background: amber[300],
+        background: amber["A400"],
     },
     bloodied: {
-        background: red[400],
+        background: red["A400"],
     },
 }));

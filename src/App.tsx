@@ -88,10 +88,11 @@ let theme = createMuiTheme({
         // Custom tooltip
         MuiTooltip: {
             tooltip: {
-                backgroundColor: SECONDARY_COLOR,
+                backgroundColor: PRIMARY_COLOR,
+                fontWeight: "bold",
             },
             arrow: {
-                color: SECONDARY_COLOR,
+                color: PRIMARY_COLOR,
             },
         },
     },
