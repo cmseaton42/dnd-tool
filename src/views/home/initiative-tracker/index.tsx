@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { RootState } from "store";
 import { AddCombatantForm } from "./form-add-combatant";
+import { Flipper, Flipped } from "react-flip-toolkit";
 
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -50,11 +51,19 @@ export const InitiativeTracker: React.FC = () => {
             <AddCombatantForm open={openCombatantForm} onClose={() => setOpenCombatantForm(false)} />
 
             {/* Display Combatant List */}
-            {combatants
-                .sort((a, b) => b.initiative - a.initiative)
-                .map((c) => (
-                    <CombatantCard key={c.id} combatant={c} />
-                ))}
+            <Flipper flipKey={combatants.map((c) => c.id).join(" ")}>
+                <ul>
+                    {combatants
+                        .sort((a, b) => b.initiative - a.initiative)
+                        .map((c) => (
+                            <Flipped key={c.id} flipId={c.id}>
+                                <li style={{ listStyleType: "none" }}>
+                                    <CombatantCard combatant={c} />
+                                </li>
+                            </Flipped>
+                        ))}
+                </ul>
+            </Flipper>
         </div>
     );
 };

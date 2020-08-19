@@ -116,7 +116,7 @@ interface IStyleProps {
 const useStyles = makeStyles((theme) => ({
     wrapper: {
         border: (props: IStyleProps) => `${props.color[400]} 2px solid`,
-        margin: theme.spacing(0.3),
+        margin: theme.spacing(0.5),
         padding: theme.spacing(2),
         borderRadius: 5,
         width: "100%",
