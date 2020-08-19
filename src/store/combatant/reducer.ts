@@ -7,6 +7,7 @@ import {
     UPDATE_INITIATIVE,
     UPDATE_COMBATANT,
 } from "./types";
+import { AccordionActions } from "@material-ui/core";
 
 const initialState: CombatantState = {
     combatants: [],
@@ -32,7 +33,12 @@ export function combatantReducer(state = initialState, action: CombantantActionT
                         ...c,
                         hitPoints: {
                             ...c.hitPoints,
-                            remaining: action.payload.value,
+                            remaining:
+                                action.payload.value > 0
+                                    ? action.payload.value <= c.hitPoints.max
+                                        ? Math.round(action.payload.value)
+                                        : c.hitPoints.max
+                                    : c.hitPoints.remaining,
                         },
                     };
                 }),
