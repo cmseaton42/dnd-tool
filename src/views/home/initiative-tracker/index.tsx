@@ -20,6 +20,8 @@ export const InitiativeTracker: React.FC = () => {
     const [openCombatantForm, setOpenCombatantForm] = React.useState(false);
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
+    const sorted = combatants.sort((a, b) => b.initiative - a.initiative);
+
     return (
         <div className={cls.wrapper}>
             <div className={cls.container}>
@@ -54,17 +56,15 @@ export const InitiativeTracker: React.FC = () => {
             <AddCombatantForm open={openCombatantForm} onClose={() => setOpenCombatantForm(false)} />
 
             {/* Display Combatant List */}
-            <Flipper flipKey={combatants.map((c) => c.id).join(" ")}>
+            <Flipper flipKey={sorted.map((c) => c.id).join(" ")}>
                 <ul>
-                    {combatants
-                        .sort((a, b) => b.initiative - a.initiative)
-                        .map((c) => (
-                            <Flipped key={c.id} flipId={c.id}>
-                                <li style={{ listStyleType: "none" }}>
-                                    <CombatantCard combatant={c} />
-                                </li>
-                            </Flipped>
-                        ))}
+                    {sorted.map((c) => (
+                        <Flipped key={c.id} flipId={c.id}>
+                            <li style={{ listStyleType: "none" }}>
+                                <CombatantCard combatant={c} />
+                            </li>
+                        </Flipped>
+                    ))}
                 </ul>
             </Flipper>
         </div>
