@@ -142,13 +142,14 @@ const useStyles = makeStyles((theme) => ({
         ...theme.scrollbar,
     },
     icon: {
-        padding: theme.spacing(0.2),
+        padding: theme.spacing(0.1),
         "&:hover": {
             cursor: "pointer",
         },
     },
     edit: {
         color: grey[400],
+        marginLeft: 2,
         "&:hover": {
             color: grey[500],
         },
