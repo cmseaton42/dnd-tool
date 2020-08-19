@@ -60,9 +60,11 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                     <Badge
                         color="secondary"
                         badgeContent={
-                            combatant.initiativeModifier >= 0
-                                ? `+${combatant.initiativeModifier}`
-                                : `-${combatant.initiativeModifier}`
+                            combatant.initiativeModifier >= 0 ? (
+                                <strong>{`+${combatant.initiativeModifier}`}</strong>
+                            ) : (
+                                <strong>{`${combatant.initiativeModifier}`}</strong>
+                            )
                         }
                         invisible={!showBadge}
                     >
