@@ -3,21 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { RootState } from "store";
 import { CombantantActionTypes, ADD_COMBATANT } from "store/combatant/types";
+import { AddCombatantForm } from "./form-add-combatant";
 
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { red, green, blue, orange, yellow } from "@material-ui/core/colors";
 
 import { CombatantCard } from "./combatant-card";
 import SwordIcon from "./swords.svg";
 import PersonRounded from "@material-ui/icons/PersonRounded";
 import MonsterIcon from "@material-ui/icons/PetsRounded";
-import NpcIcon from "@material-ui/icons/LocalLibraryRounded";
 
 export const InitiativeTracker: React.FC = () => {
     const cls = useStyles();
     const { combatants } = useSelector((state: RootState) => state.combantants);
-    // const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+    const [openCombatantForm, setOpenCombatantForm] = React.useState(false);
 
     return (
         <div className={cls.wrapper}>
@@ -34,17 +33,11 @@ export const InitiativeTracker: React.FC = () => {
                     color="secondary"
                     variant="contained"
                     startIcon={<PersonRounded />}
+                    onClick={() => setOpenCombatantForm(true)}
                 >
-                    PC
+                    Combatant
                 </Button>
-                <Button
-                    style={{ margin: 2, color: "white", fontWeight: "bold" }}
-                    color="secondary"
-                    variant="contained"
-                    startIcon={<NpcIcon />}
-                >
-                    Custom
-                </Button>
+                <AddCombatantForm open={openCombatantForm} onClose={() => setOpenCombatantForm(false)} />
                 <Button
                     style={{ margin: 2, color: "white", fontWeight: "bold" }}
                     color="secondary"

@@ -31,7 +31,7 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
         <div className={clsx(cls.container, cls.wrapper)}>
             {/* Combatant Name Display */}
             <div className={cls.container}>
-                <Typography style={{ color: typeColor[500] }} variant="h5" noWrap>
+                <Typography style={{ color: typeColor[500], fontWeight: 600, fontSize: 18 }} noWrap>
                     {name || "Rezkin"}
                 </Typography>
                 <Tooltip title={type}>
