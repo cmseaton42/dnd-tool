@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "/dnd-tool/static/js/main.6d0d1099.chunk.js",
-    "main.js.map": "/dnd-tool/static/js/main.6d0d1099.chunk.js.map",
+    "main.js": "/dnd-tool/static/js/main.0b53a375.chunk.js",
+    "main.js.map": "/dnd-tool/static/js/main.0b53a375.chunk.js.map",
     "runtime-main.js": "/dnd-tool/static/js/runtime-main.a49c5748.js",
     "runtime-main.js.map": "/dnd-tool/static/js/runtime-main.a49c5748.js.map",
-    "static/js/2.7251341a.chunk.js": "/dnd-tool/static/js/2.7251341a.chunk.js",
-    "static/js/2.7251341a.chunk.js.map": "/dnd-tool/static/js/2.7251341a.chunk.js.map",
+    "static/js/2.409679be.chunk.js": "/dnd-tool/static/js/2.409679be.chunk.js",
+    "static/js/2.409679be.chunk.js.map": "/dnd-tool/static/js/2.409679be.chunk.js.map",
     "index.html": "/dnd-tool/index.html",
-    "precache-manifest.e231e9a65ae669d451f26f30f265379c.js": "/dnd-tool/precache-manifest.e231e9a65ae669d451f26f30f265379c.js",
+    "precache-manifest.fa78dcf8d547fb3a8ad79226656a574e.js": "/dnd-tool/precache-manifest.fa78dcf8d547fb3a8ad79226656a574e.js",
     "service-worker.js": "/dnd-tool/service-worker.js",
-    "static/js/2.7251341a.chunk.js.LICENSE.txt": "/dnd-tool/static/js/2.7251341a.chunk.js.LICENSE.txt",
+    "static/js/2.409679be.chunk.js.LICENSE.txt": "/dnd-tool/static/js/2.409679be.chunk.js.LICENSE.txt",
     "static/media/skull.svg": "/dnd-tool/static/media/skull.246b879b.svg",
     "static/media/swords.svg": "/dnd-tool/static/media/swords.19af7b51.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.a49c5748.js",
-    "static/js/2.7251341a.chunk.js",
-    "static/js/main.6d0d1099.chunk.js"
+    "static/js/2.409679be.chunk.js",
+    "static/js/main.0b53a375.chunk.js"
   ]
 }
