@@ -17,7 +17,6 @@ import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import HeartIcon from "@material-ui/icons/FavoriteRounded";
 import ShieldIcon from "@material-ui/icons/SecurityRounded";
 import InitiativeIcon from "@material-ui/icons/WatchLaterRounded";
-import DeadIcon from "@material-ui/icons/BlockRounded";
 import SkullIcon from "./skull.svg";
 import { red, green, blue, orange, yellow } from "@material-ui/core/colors";
 

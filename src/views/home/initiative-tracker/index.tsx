@@ -1,8 +1,7 @@
-import React, { Dispatch } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { RootState } from "store";
-import { CombantantActionTypes, ADD_COMBATANT } from "store/combatant/types";
 import { AddCombatantForm } from "./form-add-combatant";
 
 import Typography from "@material-ui/core/Typography";
