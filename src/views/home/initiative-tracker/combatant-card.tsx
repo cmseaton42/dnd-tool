@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { ICombatant } from "types/combatant";
 import { IMaterialColor } from "types/material";
 import { useDispatch } from "react-redux";
-import { CombantantActionTypes, DELETE_COMBATANT, UPDATE_REMAINING_HP } from "store/combatant/types";
+import { CombantantActionTypes, DELETE_COMBATANT, UPDATE_REMAINING_HP, COPY_COMBATANT } from "store/combatant/types";
 import { UpdateInitForm } from "./form-update-initiative";
 import { EditCombatantForm } from "./form-edit-combatant";
 import { HealthBar } from "components/health-bar";
@@ -19,8 +19,9 @@ import HeartIcon from "@material-ui/icons/FavoriteRounded";
 import ShieldIcon from "@material-ui/icons/SecurityRounded";
 import InitiativeIcon from "@material-ui/icons/WatchLaterRounded";
 import EditIcon from "@material-ui/icons/EditRounded";
+import CopyIcon from "@material-ui/icons/FileCopyRounded";
 import SkullIcon from "./skull.svg";
-import { red, green, blue, orange, yellow, grey } from "@material-ui/core/colors";
+import { red, green, blue, orange, yellow, blueGrey } from "@material-ui/core/colors";
 
 export interface ICombatantCardProps {
     combatant: ICombatant;
@@ -82,6 +83,12 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                 </Tooltip>
                 <Tooltip title={"Edit Combatant Details"}>
                     <EditIcon onClick={() => setOpenEditDialog(true)} className={clsx(cls.icon, cls.edit)} />
+                </Tooltip>
+                <Tooltip title={"Copy Combatant"}>
+                    <CopyIcon
+                        onClick={() => dispatch({ type: COPY_COMBATANT, id })}
+                        className={clsx(cls.icon, cls.copy)}
+                    />
                 </Tooltip>
                 <Tooltip title={"Delete Combatant"}>
                     <DeleteIcon
@@ -148,10 +155,16 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     edit: {
-        color: grey[400],
+        color: blueGrey[300],
         marginLeft: 2,
         "&:hover": {
-            color: grey[500],
+            color: blueGrey[400],
+        },
+    },
+    copy: {
+        color: blueGrey[200],
+        "&:hover": {
+            color: blueGrey[300],
         },
     },
     delete: {

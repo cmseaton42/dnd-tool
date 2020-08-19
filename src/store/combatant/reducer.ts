@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import {
     CombatantState,
     CombantantActionTypes,
@@ -7,6 +8,7 @@ import {
     UPDATE_INITIATIVE,
     UPDATE_COMBATANT,
     ROLL_INITIATIVE,
+    COPY_COMBATANT,
 } from "./types";
 
 const initialState: CombatantState = {
@@ -72,6 +74,15 @@ export function combatantReducer(state = initialState, action: CombantantActionT
                     };
                 }),
             };
+
+        case COPY_COMBATANT:
+            const filtered = state.combatants.filter((c) => c.id === action.id);
+            const copied = filtered.length === 1 ? filtered[0] : null;
+
+            if (copied)
+                return {
+                    combatants: [...state.combatants, { ...copied, id: uuid() }],
+                };
 
         default:
             return state;

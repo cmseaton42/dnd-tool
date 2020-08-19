@@ -17,6 +17,7 @@ export interface IUpdateCombatantPayload {
 export const ADD_COMBATANT = "ADD_COMBATANT";
 export const DELETE_COMBATANT = "DELETE_COMBATANT";
 export const UPDATE_COMBATANT = "UPDATE_COMBATANT";
+export const COPY_COMBATANT = "COPY_COMBATANT";
 export const UPDATE_REMAINING_HP = "UPDATE_REMAINING_HP";
 export const UPDATE_INITIATIVE = "UPDATE_INITIATIVE";
 export const ROLL_INITIATIVE = "ROLL_INITIATIVE";
@@ -50,10 +51,16 @@ interface IRollInitiativeAction {
     type: typeof ROLL_INITIATIVE;
 }
 
+interface ICopyCombatantAction {
+    type: typeof COPY_COMBATANT;
+    id: string;
+}
+
 export type CombantantActionTypes =
     | IAddCombatantAction
     | IDeleteCombatantAction
     | IUpdateRemainingHpAction
     | IUpdateInitiativeAction
     | IUpdateCombatantAction
-    | IRollInitiativeAction;
+    | IRollInitiativeAction
+    | ICopyCombatantAction;

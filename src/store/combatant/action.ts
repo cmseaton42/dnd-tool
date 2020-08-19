@@ -6,6 +6,7 @@ import {
     UPDATE_INITIATIVE,
     UPDATE_COMBATANT,
     ROLL_INITIATIVE,
+    COPY_COMBATANT,
     CombantantActionTypes,
 } from "./types";
 
@@ -56,5 +57,12 @@ export function updateCombatant(id: string, combatant: ICombatant): CombantantAc
 export function rollInitiative(): CombantantActionTypes {
     return {
         type: ROLL_INITIATIVE,
+    };
+}
+
+export function copyCombatant(id: string): CombantantActionTypes {
+    return {
+        type: COPY_COMBATANT,
+        id,
     };
 }
