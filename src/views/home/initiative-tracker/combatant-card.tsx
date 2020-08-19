@@ -28,7 +28,7 @@ export interface ICombatantCardProps {
 export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const typeColor = getBackgroundByType(combatant.type);
     const cls = useStyles({ color: typeColor });
-    const { hitPoints: hp, name, type, id, armorClass: ac, initiative } = combatant;
+    const { name, type, id, armorClass: ac, initiative } = combatant;
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
     const [openInitDialog, setOpenInitDialog] = React.useState(false);
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
@@ -81,7 +81,7 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
             <div className={cls.container}>
                 {!isDead && <HeartIcon fontSize="small" style={{ color: red["A400"], marginRight: 2 }} />}
                 {isDead && <img src={SkullIcon} className={cls.deadIcon} alt="Skull Icon" />}
-                <HealthBar hp={hp} />
+                <HealthBar combatant={combatant} color={typeColor} />
                 <input
                     className={cls.healthInput}
                     value={combatant.hitPoints.remaining}
@@ -185,6 +185,9 @@ const useStyles = makeStyles((theme) => ({
         color: (props: IStyleProps) => props.color[500],
         fontSize: 18,
         textAlign: "center",
+        "&:focus": {
+            outline: "none",
+        },
     },
     deadIcon: {
         height: 21,

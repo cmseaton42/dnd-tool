@@ -1,35 +1,93 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { ICombatantHitPoints } from "types/combatant";
+import { ICombatant } from "types/combatant";
 
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { red, green, amber } from "@material-ui/core/colors";
+import { red, green, amber, grey } from "@material-ui/core/colors";
+import AddIcon from "@material-ui/icons/AddRounded";
+import MinusIcon from "@material-ui/icons/RemoveRounded";
+import { IMaterialColor } from "types/material";
+import { useDispatch } from "react-redux";
+import { CombantantActionTypes, UPDATE_REMAINING_HP } from "store/combatant/types";
 
 export interface IHealthBarProps {
-    hp: ICombatantHitPoints;
+    combatant: ICombatant;
+    color?: IMaterialColor;
     height?: number;
     width?: number;
+    showTools?: boolean;
 }
 
-export const HealthBar: React.FC<IHealthBarProps> = ({ hp, height, width }) => {
+export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width, showTools, color }) => {
+    const [amount, setAmount] = React.useState(1);
+    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+
+    const { hitPoints: hp } = combatant;
     const isHealthy = hp.remaining >= hp.max * 0.666;
     const isBloodied = hp.remaining <= hp.max * 0.3333;
     const isInjured = !isHealthy && !isBloodied;
 
     const maxWidth = width || 100;
+    const maxHeight = height || 10;
     const healthPercentage = Math.round((hp.remaining / hp.max) * maxWidth);
-    const cls = useStyles({ height: height || 10, width: width || 100, remaining: healthPercentage });
+    const cls = useStyles({ height: maxHeight, width: maxWidth, remaining: healthPercentage, color: color || grey });
 
     const bg = isHealthy ? cls.healthy : isInjured ? cls.injured : isBloodied ? cls.bloodied : null;
+    const show = showTools !== undefined ? showTools : true;
+
+    const updateHandler = (method: "ADD" | "REMOVE") => () => {
+        dispatch({
+            type: UPDATE_REMAINING_HP,
+            payload: {
+                id: combatant.id,
+                value: method === "ADD" ? hp.remaining + amount : hp.remaining - amount,
+            },
+        });
+
+        setAmount(1);
+    };
 
     return (
-        <Tooltip title={`HP: ${hp.remaining} / ${hp.max} - Temp: ${hp.temporary}`}>
-            <div className={cls.outer}>
-                <div className={clsx(cls.inner, bg)}></div>
-            </div>
-        </Tooltip>
+        <div style={{ position: "relative" }}>
+            <Tooltip title={`HP: ${hp.remaining} / ${hp.max} - Temp: ${hp.temporary}`}>
+                <div className={cls.outer}>
+                    <div className={clsx(cls.inner, bg)}></div>
+                </div>
+            </Tooltip>
+            {show && (
+                <div
+                    style={{
+                        width: maxWidth,
+                        height: 15,
+                        position: "absolute",
+                        top: maxHeight + 3,
+                        left: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Tooltip title="Apply Indicated Damage">
+                        <MinusIcon onClick={updateHandler("REMOVE")} className={clsx(cls.icon, cls.minus)} />
+                    </Tooltip>
+                    <input
+                        type="number"
+                        value={amount}
+                        onChange={(e) => {
+                            const value = Math.round(parseInt(e.target.value));
+                            if (value > 0) setAmount(value);
+                        }}
+                        className={cls.healthInput}
+                        min={1}
+                    />
+                    <Tooltip title="Heal Indicated Ammount">
+                        <AddIcon onClick={updateHandler("ADD")} className={clsx(cls.icon, cls.plus)} />
+                    </Tooltip>
+                </div>
+            )}
+        </div>
     );
 };
 
@@ -37,6 +95,7 @@ interface IStyleProps {
     height: number;
     width: number;
     remaining: number;
+    color: IMaterialColor;
 }
 const useStyles = makeStyles((theme) => ({
     outer: {
@@ -64,5 +123,38 @@ const useStyles = makeStyles((theme) => ({
     },
     bloodied: {
         background: red["A400"],
+    },
+    healthInput: {
+        width: 40,
+        border: "none",
+        background: "transparent",
+        color: (props: IStyleProps) => props.color[500],
+        fontSize: 14,
+        textAlign: "center",
+        "&:focus": {
+            outline: "none",
+        },
+    },
+    icon: {
+        fontSize: 25,
+        padding: 2,
+        "&:hover": {
+            cursor: "pointer",
+        },
+    },
+    minus: {
+        color: red[300],
+        marginRight: 13,
+        "&:hover": {
+            color: red[500],
+            transition: "all 200ms ease-in-out",
+        },
+    },
+    plus: {
+        color: green[300],
+        "&:hover": {
+            color: green[500],
+            transition: "all 200ms ease-in-out",
+        },
     },
 }));
