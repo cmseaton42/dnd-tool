@@ -7,7 +7,6 @@ import {
     UPDATE_INITIATIVE,
     UPDATE_COMBATANT,
 } from "./types";
-import { AccordionActions } from "@material-ui/core";
 
 const initialState: CombatantState = {
     combatants: [],
