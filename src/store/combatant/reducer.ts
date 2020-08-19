@@ -38,7 +38,7 @@ export function combatantReducer(state = initialState, action: CombantantActionT
                                     ? action.payload.value <= c.hitPoints.max
                                         ? Math.round(action.payload.value)
                                         : c.hitPoints.max
-                                    : c.hitPoints.remaining,
+                                    : 0,
                         },
                     };
                 }),
