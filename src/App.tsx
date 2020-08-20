@@ -103,7 +103,7 @@ theme = responsiveFontSizes(theme);
 
 // Setup browser history API for
 //  usage with Google Analytics
-const history = createBrowserHistory({ basename: "/dnd-tool/" });
+const history = createBrowserHistory({ basename: process.env.REACT_APP_BASENAME as string });
 
 // Initialize Google Analytics page view tracking
 history.listen((location) => {
