@@ -25,24 +25,29 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
     const cls = useStyles();
     const [name, setName] = React.useState("Combatant");
     const [type, setType] = React.useState<CombantantTypes>("character");
-    const [hp, setHp] = React.useState<ICombatantHitPoints>({ max: 10, remaining: 10, temporary: 0 });
-    const [ac, setAc] = React.useState(13);
-    const [initMod, setInitMod] = React.useState(0);
+    const [hitpoints, setHp] = React.useState<string>("10");
+    const [ac, setAc] = React.useState("13");
+    const [initMod, setInitMod] = React.useState("0");
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     // Evaluate form validity
+    const acVal = parseInt(ac);
+    const initVal = parseInt(initMod);
+    const hpVal = isNaN(parseInt(hitpoints)) ? 0 : parseInt(hitpoints);
+    const hp = { max: hpVal, remaining: hpVal, temporary: 0 };
     const isValidName = name.length >= 3;
     const isValidType = type.length > 0;
     const isValidHp = hp.max >= hp.remaining && hp.max > 0 && hp.remaining > 0 && hp.temporary >= 0;
-    const isValidAc = ac > 0;
-    const isValidInitMod = initMod >= -10 && initMod <= 10;
+    const isValidAc = !isNaN(acVal) && acVal > 0;
+    const isValidInitMod = !isNaN(initVal) && initVal >= -10 && initVal <= 10;
     const formValid = isValidName && isValidType && isValidHp && isValidAc && isValidInitMod;
 
     const clearForm = () => {
         setName("Combatant");
         setType("character");
-        setHp({ max: 0, remaining: 0, temporary: 0 });
-        setAc(13);
+        setHp("10");
+        setAc("13");
+        setInitMod("0");
     };
 
     // Form submission handler
@@ -51,11 +56,11 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
             type: ADD_COMBATANT,
             payload: {
                 id: uuid(),
-                armorClass: ac,
+                armorClass: acVal,
                 conditions: [],
                 hitPoints: hp,
                 initiative: 10,
-                initiativeModifier: initMod,
+                initiativeModifier: initVal,
                 name,
                 type,
             },
@@ -68,7 +73,7 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        handleSubmit();
+        if (formValid) handleSubmit();
     };
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -103,9 +108,9 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
                             fullWidth
                             value={ac}
                             onChange={(e) => {
-                                const newAc = parseInt(e.target.value);
-                                if (newAc > 0) setAc(newAc);
+                                setAc(e.target.value);
                             }}
+                            inputProps={{ min: 0 }}
                             required
                         />
                         <TextField
@@ -113,11 +118,11 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
                             label="HP"
                             type="number"
                             fullWidth
-                            value={hp.max}
+                            value={hitpoints}
                             onChange={(e) => {
-                                const newHp = parseInt(e.target.value);
-                                if (newHp > 0) setHp({ ...hp, max: newHp, remaining: newHp });
+                                setHp(e.target.value);
                             }}
+                            inputProps={{ min: 0 }}
                             required
                         />
                         <TextField
@@ -127,9 +132,9 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
                             fullWidth
                             value={initMod}
                             onChange={(e) => {
-                                const newInitMod = parseInt(e.target.value);
-                                if (newInitMod >= -10 && newInitMod <= 10) setInitMod(newInitMod);
+                                setInitMod(e.target.value);
                             }}
+                            inputProps={{ min: 0 }}
                             required
                         />
                     </div>

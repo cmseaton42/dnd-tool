@@ -21,7 +21,7 @@ export interface IHealthBarProps {
 }
 
 export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width, showTools, color }) => {
-    const [amount, setAmount] = React.useState(5);
+    const [amount, setAmount] = React.useState<string>("5");
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     const { hitPoints: hp } = combatant;
@@ -38,15 +38,19 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
     const show = showTools !== undefined ? showTools : true;
 
     const updateHandler = (method: "ADD" | "REMOVE") => () => {
-        dispatch({
-            type: UPDATE_REMAINING_HP,
-            payload: {
-                id: combatant.id,
-                value: method === "ADD" ? hp.remaining + amount : hp.remaining - amount,
-            },
-        });
+        const newVal = parseInt(amount);
 
-        setAmount(5);
+        if (newVal && newVal >= 1) {
+            dispatch({
+                type: UPDATE_REMAINING_HP,
+                payload: {
+                    id: combatant.id,
+                    value: method === "ADD" ? hp.remaining + newVal : hp.remaining - newVal,
+                },
+            });
+        }
+
+        setAmount("5");
     };
 
     return (
@@ -77,8 +81,7 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
                             type="number"
                             value={amount}
                             onChange={(e) => {
-                                const value = Math.round(parseInt(e.target.value));
-                                if (value > 0) setAmount(value);
+                                setAmount(e.target.value);
                             }}
                             className={cls.healthInput}
                             min={1}

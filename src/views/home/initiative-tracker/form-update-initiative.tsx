@@ -17,11 +17,12 @@ export interface IUpdateInitFormProps {
 }
 
 export const UpdateInitForm: React.FC<IUpdateInitFormProps> = ({ open, onClose, combatant }) => {
-    const [init, setInit] = React.useState(combatant.initiative);
+    const [init, setInit] = React.useState(`${combatant.initiative}`);
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     // Evaluate form validity
-    const isValidInit = init > 0 && init <= 30;
+    const initVal = parseInt(init);
+    const isValidInit = !isNaN(initVal) && initVal > 0 && initVal <= 30;
 
     // Form submission handler
     const handleSubmit = () => {
@@ -29,7 +30,7 @@ export const UpdateInitForm: React.FC<IUpdateInitFormProps> = ({ open, onClose, 
             type: UPDATE_INITIATIVE,
             payload: {
                 id: combatant.id,
-                value: init,
+                value: initVal,
             },
         });
 
@@ -39,7 +40,7 @@ export const UpdateInitForm: React.FC<IUpdateInitFormProps> = ({ open, onClose, 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        handleSubmit();
+        if (isValidInit) handleSubmit();
     };
 
     return (
@@ -56,7 +57,7 @@ export const UpdateInitForm: React.FC<IUpdateInitFormProps> = ({ open, onClose, 
                         type="number"
                         fullWidth
                         value={init}
-                        onChange={(e) => setInit(Math.round(parseInt(e.target.value)))}
+                        onChange={(e) => setInit(e.target.value)}
                         required
                         inputProps={{ min: 0 }}
                     />

@@ -25,17 +25,21 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
     const cls = useStyles();
     const [name, setName] = React.useState(combatant.name);
     const [type, setType] = React.useState<CombantantTypes>(combatant.type);
-    const [hp, setHp] = React.useState<ICombatantHitPoints>(combatant.hitPoints);
-    const [ac, setAc] = React.useState(combatant.armorClass);
-    const [initMod, setInitMod] = React.useState(combatant.initiativeModifier);
+    const [hitpoints, setHp] = React.useState<string>(`${combatant.hitPoints.max}`);
+    const [ac, setAc] = React.useState(`${combatant.armorClass}`);
+    const [initMod, setInitMod] = React.useState(`${combatant.initiativeModifier}`);
     const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
 
     // Evaluate form validity
+    const acVal = parseInt(ac);
+    const initVal = parseInt(initMod);
+    const hpVal = isNaN(parseInt(hitpoints)) ? 0 : parseInt(hitpoints);
+    const hp = { max: hpVal, remaining: hpVal, temporary: 0 };
     const isValidName = name.length >= 3;
     const isValidType = type.length > 0;
     const isValidHp = hp.max >= hp.remaining && hp.max > 0 && hp.remaining > 0 && hp.temporary >= 0;
-    const isValidAc = ac > 0;
-    const isValidInitMod = initMod >= -10 && initMod <= 10;
+    const isValidAc = !isNaN(acVal) && acVal > 0;
+    const isValidInitMod = !isNaN(initVal) && initVal >= -10 && initVal <= 10;
     const formValid = isValidName && isValidType && isValidHp && isValidAc && isValidInitMod;
 
     // Form submission handler
@@ -46,11 +50,11 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
                 id: combatant.id,
                 combatant: {
                     id: combatant.id,
-                    armorClass: ac,
+                    armorClass: acVal,
                     conditions: combatant.conditions,
                     hitPoints: hp,
                     initiative: combatant.initiative,
-                    initiativeModifier: initMod,
+                    initiativeModifier: initVal,
                     name,
                     type,
                 },
@@ -63,7 +67,7 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        handleSubmit();
+        if (formValid) handleSubmit();
     };
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -98,8 +102,7 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
                             fullWidth
                             value={ac}
                             onChange={(e) => {
-                                const newAc = parseInt(e.target.value);
-                                if (newAc > 0) setAc(newAc);
+                                setAc(e.target.value);
                             }}
                             required
                         />
@@ -108,10 +111,9 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
                             label="HP"
                             type="number"
                             fullWidth
-                            value={hp.max}
+                            value={hitpoints}
                             onChange={(e) => {
-                                const newHp = parseInt(e.target.value);
-                                if (newHp > 0) setHp({ ...hp, max: newHp, remaining: newHp });
+                                setHp(e.target.value);
                             }}
                             required
                         />
@@ -122,8 +124,7 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
                             fullWidth
                             value={initMod}
                             onChange={(e) => {
-                                const newInitMod = parseInt(e.target.value);
-                                if (newInitMod >= -10 && newInitMod <= 10) setInitMod(newInitMod);
+                                setInitMod(e.target.value);
                             }}
                             required
                         />
