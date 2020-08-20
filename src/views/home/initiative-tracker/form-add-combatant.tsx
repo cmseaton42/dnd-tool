@@ -1,4 +1,5 @@
 import React, { Dispatch } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { CombantantTypes, ICombatantHitPoints } from "types/combatant";
 import { useDispatch } from "react-redux";
 import { CombantantActionTypes, ADD_COMBATANT } from "store/combatant/types";
@@ -21,6 +22,7 @@ export interface IAddCombatantFormProps {
 }
 
 export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClose }) => {
+    const cls = useStyles();
     const [name, setName] = React.useState("Combatant");
     const [type, setType] = React.useState<CombantantTypes>("character");
     const [hp, setHp] = React.useState<ICombatantHitPoints>({ max: 10, remaining: 10, temporary: 0 });
@@ -93,7 +95,7 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
                         required
                     />
 
-                    <div style={{ display: "flex" }}>
+                    <div className={cls.formWrapper}>
                         <TextField
                             margin="dense"
                             label="Armor Class"
@@ -157,3 +159,13 @@ export const AddCombatantForm: React.FC<IAddCombatantFormProps> = ({ open, onClo
         </Dialog>
     );
 };
+
+const useStyles = makeStyles((theme) => ({
+    formWrapper: {
+        display: "flex",
+        flexWrap: "nowrap",
+        [theme.breakpoints.down("xs")]: {
+            flexWrap: "wrap",
+        },
+    },
+}));

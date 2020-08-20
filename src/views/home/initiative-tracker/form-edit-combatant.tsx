@@ -1,4 +1,5 @@
 import React, { Dispatch } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { CombantantTypes, ICombatantHitPoints, ICombatant } from "types/combatant";
 import { useDispatch } from "react-redux";
 import { CombantantActionTypes, UPDATE_COMBATANT } from "store/combatant/types";
@@ -21,6 +22,7 @@ export interface IEditCombatantFormProps {
 }
 
 export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onClose, combatant }) => {
+    const cls = useStyles();
     const [name, setName] = React.useState(combatant.name);
     const [type, setType] = React.useState<CombantantTypes>(combatant.type);
     const [hp, setHp] = React.useState<ICombatantHitPoints>(combatant.hitPoints);
@@ -88,7 +90,7 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
                         required
                     />
 
-                    <div style={{ display: "flex" }}>
+                    <div className={cls.formWrapper}>
                         <TextField
                             margin="dense"
                             label="Armor Class"
@@ -152,3 +154,13 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
         </Dialog>
     );
 };
+
+const useStyles = makeStyles((theme) => ({
+    formWrapper: {
+        display: "flex",
+        flexWrap: "nowrap",
+        [theme.breakpoints.down("xs")]: {
+            flexWrap: "wrap",
+        },
+    },
+}));

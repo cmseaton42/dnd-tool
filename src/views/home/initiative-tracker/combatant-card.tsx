@@ -98,11 +98,8 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                 </Tooltip>
             </div>
 
-            {/* Spacing Between Elements */}
-            <div className={cls.spacer}></div>
-
             {/* Combatant Health Meter */}
-            <div className={cls.container}>
+            <div className={clsx(cls.container, cls.healthWrapper)}>
                 {!isDead && <HeartIcon fontSize="small" style={{ color: red["A400"], marginRight: 2 }} />}
                 {isDead && <img src={SkullIcon} className={cls.deadIcon} alt="Skull Icon" />}
                 <HealthBar combatant={combatant} color={typeColor} />
@@ -146,7 +143,17 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         background: (props: IStyleProps) => props.color[50],
         overflowX: "auto",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        [theme.breakpoints.down("xs")]: {
+            justifyContent: "center",
+        },
         ...theme.scrollbar,
+    },
+    healthWrapper: {
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0.5),
+        },
     },
     icon: {
         padding: theme.spacing(0.1),
@@ -175,7 +182,6 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
     },
     typeChip: {
@@ -218,6 +224,9 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         "&:focus": {
             outline: "none",
+        },
+        [theme.breakpoints.down("xs")]: {
+            fontSize: 15,
         },
     },
     deadIcon: {

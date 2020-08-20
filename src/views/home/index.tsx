@@ -10,7 +10,7 @@ export const HomePage: React.FC = () => {
 
     return (
         <Grid container justify="center" className={cls.root}>
-            <Grid item xs={12} sm={11} md={6} lg={5}>
+            <Grid item sm={12} md={8} lg={7} xl={6}>
                 <InitiativeTracker />
             </Grid>
         </Grid>

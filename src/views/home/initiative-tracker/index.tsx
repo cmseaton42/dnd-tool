@@ -31,13 +31,14 @@ export const InitiativeTracker: React.FC = () => {
                 </Typography>
             </div>
 
-            <div style={{ margin: 8 }} className={cls.container}>
+            <div style={{ marginTop: 4, marginBottom: 4 }} className={cls.container}>
                 <Button
-                    style={{ margin: 2, color: "white", fontWeight: "bold" }}
+                    style={{ marginRight: 2, color: "white", fontWeight: "bold" }}
                     color="secondary"
                     variant="contained"
                     startIcon={<PersonIcon />}
                     onClick={() => setOpenCombatantForm(true)}
+                    size="small"
                 >
                     Combatant
                 </Button>
@@ -47,6 +48,7 @@ export const InitiativeTracker: React.FC = () => {
                     variant="contained"
                     onClick={() => dispatch({ type: ROLL_INITIATIVE })}
                     startIcon={<RollInitIcon />}
+                    size="small"
                 >
                     Roll Initiative
                 </Button>
@@ -57,7 +59,7 @@ export const InitiativeTracker: React.FC = () => {
 
             {/* Display Combatant List */}
             <Flipper flipKey={sorted.map((c) => c.id).join(" ")}>
-                <ul>
+                <ul style={{ padding: 0, listStyleType: "none", margin: 0 }}>
                     {sorted.map((c) => (
                         <Flipped key={c.id} flipId={c.id}>
                             <li style={{ listStyleType: "none" }}>
@@ -76,6 +78,8 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
+        margin: 0,
+        padding: 0,
     },
     container: {
         display: "flex",
@@ -86,5 +90,8 @@ const useStyles = makeStyles((theme) => ({
     headerIcon: {
         height: 40,
         marginRight: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            height: 25,
+        },
     },
 }));
