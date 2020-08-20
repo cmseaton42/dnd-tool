@@ -104,7 +104,9 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                 <Flipper flipKey={isDead} spring="gentle">
                     {isDead ? (
                         <Flipped flipId="icon">
-                            <img src={SkullIcon} className={cls.deadIcon} alt="Skull Icon" />
+                            <div>
+                                <img src={SkullIcon} className={cls.deadIcon} alt="Skull Icon" />
+                            </div>
                         </Flipped>
                     ) : (
                         <Flipped flipId="icon">
@@ -243,6 +245,7 @@ const useStyles = makeStyles((theme) => ({
     },
     deadIcon: {
         height: 21,
+        width: 21,
         marginRight: 2,
     },
 }));
