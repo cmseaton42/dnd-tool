@@ -1,6 +1,6 @@
 import React, { Dispatch } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CombantantTypes, ICombatantHitPoints } from "types/combatant";
+import { CombantantTypes } from "types/combatant";
 import { useDispatch } from "react-redux";
 import { CombantantActionTypes, ADD_COMBATANT } from "store/combatant/types";
 import { v4 as uuid } from "uuid";
