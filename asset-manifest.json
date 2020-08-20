@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/dnd-tool/static/js/main.467dc1ba.chunk.js",
-    "main.js.map": "/dnd-tool/static/js/main.467dc1ba.chunk.js.map",
+    "main.js": "/dnd-tool/static/js/main.83fe4b4a.chunk.js",
+    "main.js.map": "/dnd-tool/static/js/main.83fe4b4a.chunk.js.map",
     "runtime-main.js": "/dnd-tool/static/js/runtime-main.a49c5748.js",
     "runtime-main.js.map": "/dnd-tool/static/js/runtime-main.a49c5748.js.map",
     "static/js/2.50062b5b.chunk.js": "/dnd-tool/static/js/2.50062b5b.chunk.js",
     "static/js/2.50062b5b.chunk.js.map": "/dnd-tool/static/js/2.50062b5b.chunk.js.map",
     "index.html": "/dnd-tool/index.html",
-    "precache-manifest.ff9b7ebe18491667af686387be4c266f.js": "/dnd-tool/precache-manifest.ff9b7ebe18491667af686387be4c266f.js",
+    "precache-manifest.6a940f40cf36d298b5147c3a6be5f03a.js": "/dnd-tool/precache-manifest.6a940f40cf36d298b5147c3a6be5f03a.js",
     "service-worker.js": "/dnd-tool/service-worker.js",
     "static/js/2.50062b5b.chunk.js.LICENSE.txt": "/dnd-tool/static/js/2.50062b5b.chunk.js.LICENSE.txt",
     "static/media/skull.svg": "/dnd-tool/static/media/skull.246b879b.svg",
@@ -16,6 +16,6 @@
   "entrypoints": [
     "static/js/runtime-main.a49c5748.js",
     "static/js/2.50062b5b.chunk.js",
-    "static/js/main.467dc1ba.chunk.js"
+    "static/js/main.83fe4b4a.chunk.js"
   ]
 }
