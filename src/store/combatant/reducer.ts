@@ -11,6 +11,7 @@ import {
     COPY_COMBATANT,
     UPDATE_DEATH_SAVES,
 } from "./types";
+import { IDeathSaves } from "types/combatant";
 
 const initialState: CombatantState = {
     combatants: [],
@@ -32,8 +33,13 @@ export function combatantReducer(state = initialState, action: CombantantActionT
             return {
                 combatants: state.combatants.map((c) => {
                     if (c.id !== action.payload.id) return c;
+
+                    const empty: IDeathSaves = { success: [false, false, false], failure: [false, false, false] };
+                    const deathSaves = c.hitPoints.remaining > 0 ? empty : c.deathSaves;
+
                     return {
                         ...c,
+                        deathSaves,
                         hitPoints: {
                             ...c.hitPoints,
                             remaining:

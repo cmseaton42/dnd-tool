@@ -4,7 +4,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ICombatant } from "types/combatant";
 import { IMaterialColor } from "types/material";
 import { useDispatch } from "react-redux";
-import { CombantantActionTypes, UPDATE_REMAINING_HP } from "store/combatant/types";
+import { CombantantActionTypes, UPDATE_REMAINING_HP, UPDATE_DEATH_SAVES } from "store/combatant/types";
 import { Flipper, Flipped } from "react-flip-toolkit";
 
 import Tooltip from "@material-ui/core/Tooltip";
@@ -42,6 +42,7 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
     const bg = isHealthy ? cls.healthy : isInjured ? cls.injured : isBloodied ? cls.bloodied : null;
     const s = showTools !== undefined ? showTools : true;
     const show = isUnconcious ? false : s;
+    const deathSaves = combatant.deathSaves || { success: [false, false, false], failure: [false, false, false] };
 
     const updateHandler = (method: "ADD" | "REMOVE") => () => {
         const newVal = parseInt(amount);
@@ -59,6 +60,21 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
         setAmount("5");
     };
 
+    const selectHandler = (type: "success" | "failure", offset: 0 | 1 | 2) => (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const saves = combatant.deathSaves || { success: [false, false, false], failure: [false, false, false] };
+        saves[type][offset] = e.target.checked;
+
+        dispatch({
+            type: UPDATE_DEATH_SAVES,
+            payload: {
+                id: combatant.id,
+                deathSaves: saves,
+            },
+        });
+    };
+
     return (
         <div style={{ position: "relative", marginBottom: isUnconcious ? 0 : 10 }}>
             <Flipper flipKey={isUnconcious}>
@@ -66,14 +82,44 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
                     <Flipped flipId="dead">
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <div style={{ display: "flex", alignItems: "center" }}>
-                                <GreenCheckbox style={{ height: 8, width: 12 }} size="small" />
-                                <GreenCheckbox style={{ height: 8, width: 12 }} size="small" />
-                                <GreenCheckbox style={{ height: 8, width: 12 }} size="small" />
+                                <GreenCheckbox
+                                    checked={deathSaves.success[0]}
+                                    style={{ height: 8, width: 12 }}
+                                    onChange={selectHandler("success", 0)}
+                                    size="small"
+                                />
+                                <GreenCheckbox
+                                    checked={deathSaves.success[1]}
+                                    style={{ height: 8, width: 12 }}
+                                    onChange={selectHandler("success", 1)}
+                                    size="small"
+                                />
+                                <GreenCheckbox
+                                    checked={deathSaves.success[2]}
+                                    style={{ height: 8, width: 12 }}
+                                    onChange={selectHandler("success", 2)}
+                                    size="small"
+                                />
                             </div>
                             <div style={{ display: "flex", alignItems: "center" }}>
-                                <RedCheckBox style={{ height: 8, width: 12 }} size="small" />
-                                <RedCheckBox style={{ height: 8, width: 12 }} size="small" />
-                                <RedCheckBox style={{ height: 8, width: 12 }} size="small" />
+                                <RedCheckBox
+                                    checked={deathSaves.failure[0]}
+                                    style={{ height: 8, width: 12 }}
+                                    onChange={selectHandler("failure", 0)}
+                                    size="small"
+                                />
+                                <RedCheckBox
+                                    checked={deathSaves.failure[1]}
+                                    style={{ height: 8, width: 12 }}
+                                    onChange={selectHandler("failure", 1)}
+                                    size="small"
+                                />
+                                <RedCheckBox
+                                    checked={deathSaves.failure[2]}
+                                    style={{ height: 8, width: 12 }}
+                                    onChange={selectHandler("failure", 2)}
+                                    size="small"
+                                />
                             </div>
                         </div>
                     </Flipped>
