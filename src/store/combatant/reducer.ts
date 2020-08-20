@@ -9,6 +9,7 @@ import {
     UPDATE_COMBATANT,
     ROLL_INITIATIVE,
     COPY_COMBATANT,
+    UPDATE_DEATH_SAVES,
 } from "./types";
 
 const initialState: CombatantState = {
@@ -84,6 +85,18 @@ export function combatantReducer(state = initialState, action: CombantantActionT
                     combatants: [...state.combatants, { ...copied, id: uuid() }],
                 };
             else return state;
+
+        case UPDATE_DEATH_SAVES:
+            return {
+                combatants: state.combatants.map((c) => {
+                    if (c.id !== action.payload.id) return c;
+                    return {
+                        ...c,
+                        deathSaves: action.payload.deathSaves,
+                    };
+                }),
+            };
+
         default:
             return state;
     }

@@ -1,16 +1,20 @@
 import React, { Dispatch } from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ICombatant } from "types/combatant";
-
-import Tooltip from "@material-ui/core/Tooltip";
-
-import { red, green, amber, grey } from "@material-ui/core/colors";
-import AddIcon from "@material-ui/icons/AddRounded";
-import MinusIcon from "@material-ui/icons/RemoveRounded";
 import { IMaterialColor } from "types/material";
 import { useDispatch } from "react-redux";
 import { CombantantActionTypes, UPDATE_REMAINING_HP } from "store/combatant/types";
+import { Flipper, Flipped } from "react-flip-toolkit";
+
+import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/AddRounded";
+import MinusIcon from "@material-ui/icons/RemoveRounded";
+import Fade from "@material-ui/core/Fade";
+import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+
+import DeathIcon from "@material-ui/icons/IndeterminateCheckBoxRounded";
+import { red, green, amber, grey } from "@material-ui/core/colors";
 
 export interface IHealthBarProps {
     combatant: ICombatant;
@@ -27,7 +31,8 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
     const { hitPoints: hp } = combatant;
     const isHealthy = hp.remaining >= hp.max * 0.666;
     const isBloodied = hp.remaining <= hp.max * 0.3333;
-    const isInjured = !isHealthy && !isBloodied;
+    const isUnconcious = hp.remaining <= 0;
+    const isInjured = !isHealthy && !isBloodied && !isUnconcious;
 
     const maxWidth = width || 100;
     const maxHeight = height || 10;
@@ -35,7 +40,8 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
     const cls = useStyles({ height: maxHeight, width: maxWidth, remaining: healthPercentage, color: color || grey });
 
     const bg = isHealthy ? cls.healthy : isInjured ? cls.injured : isBloodied ? cls.bloodied : null;
-    const show = showTools !== undefined ? showTools : true;
+    const s = showTools !== undefined ? showTools : true;
+    const show = isUnconcious ? false : s;
 
     const updateHandler = (method: "ADD" | "REMOVE") => () => {
         const newVal = parseInt(amount);
@@ -54,43 +60,67 @@ export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width,
     };
 
     return (
-        <div style={{ position: "relative" }}>
-            <Tooltip title={`HP: ${hp.remaining} / ${hp.max} - Temp: ${hp.temporary}`}>
-                <div className={cls.outer}>
-                    <div className={clsx(cls.inner, bg)}></div>
-                </div>
-            </Tooltip>
+        <div style={{ position: "relative", marginBottom: isUnconcious ? 0 : 10 }}>
+            <Flipper flipKey={isUnconcious}>
+                {isUnconcious ? (
+                    <Flipped flipId="dead">
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <GreenCheckbox style={{ height: 8, width: 12 }} size="small" />
+                                <GreenCheckbox style={{ height: 8, width: 12 }} size="small" />
+                                <GreenCheckbox style={{ height: 8, width: 12 }} size="small" />
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <RedCheckBox style={{ height: 8, width: 12 }} size="small" />
+                                <RedCheckBox style={{ height: 8, width: 12 }} size="small" />
+                                <RedCheckBox style={{ height: 8, width: 12 }} size="small" />
+                            </div>
+                        </div>
+                    </Flipped>
+                ) : (
+                    <Flipped flipId="dead">
+                        <Tooltip title={`HP: ${hp.remaining} / ${hp.max} - Temp: ${hp.temporary}`}>
+                            <div className={cls.outer}>
+                                <div className={clsx(cls.inner, bg)}></div>
+                            </div>
+                        </Tooltip>
+                    </Flipped>
+                )}
+            </Flipper>
+
             {show && (
-                <div
-                    style={{
-                        width: maxWidth,
-                        height: 15,
-                        position: "absolute",
-                        top: maxHeight + 3,
-                        left: 0,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Tooltip title="Apply Indicated Damage">
-                        <MinusIcon onClick={updateHandler("REMOVE")} className={clsx(cls.icon, cls.minus)} />
-                    </Tooltip>
-                    <Tooltip title="Amount to Adjust Health By">
-                        <input
-                            type="number"
-                            value={amount}
-                            onChange={(e) => {
-                                setAmount(e.target.value);
-                            }}
-                            className={cls.healthInput}
-                            min={1}
-                        />
-                    </Tooltip>
-                    <Tooltip title="Heal Indicated Ammount">
-                        <AddIcon onClick={updateHandler("ADD")} className={clsx(cls.icon, cls.plus)} />
-                    </Tooltip>
-                </div>
+                <Fade in={show}>
+                    <div
+                        style={{
+                            width: maxWidth,
+                            height: 15,
+                            position: "absolute",
+                            top: maxHeight + 3,
+                            left: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Tooltip title="Apply Indicated Damage">
+                            <MinusIcon onClick={updateHandler("REMOVE")} className={clsx(cls.icon, cls.minus)} />
+                        </Tooltip>
+                        <Tooltip title="Amount to Adjust Health By">
+                            <input
+                                type="number"
+                                value={amount}
+                                onChange={(e) => {
+                                    setAmount(e.target.value);
+                                }}
+                                className={cls.healthInput}
+                                min={1}
+                            />
+                        </Tooltip>
+                        <Tooltip title="Heal Indicated Ammount">
+                            <AddIcon onClick={updateHandler("ADD")} className={clsx(cls.icon, cls.plus)} />
+                        </Tooltip>
+                    </div>
+                </Fade>
             )}
         </div>
     );
@@ -163,3 +193,23 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
+
+const GreenCheckbox = withStyles({
+    root: {
+        color: green[400],
+        "&$checked": {
+            color: green[600],
+        },
+    },
+    checked: {},
+})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+
+const RedCheckBox = withStyles({
+    root: {
+        color: red[400],
+        "&$checked": {
+            color: red[600],
+        },
+    },
+    checked: {},
+})((props: CheckboxProps) => <Checkbox checkedIcon={<DeathIcon />} color="default" {...props} />);

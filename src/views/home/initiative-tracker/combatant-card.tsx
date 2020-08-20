@@ -8,11 +8,13 @@ import { CombantantActionTypes, DELETE_COMBATANT, UPDATE_REMAINING_HP, COPY_COMB
 import { UpdateInitForm } from "./form-update-initiative";
 import { EditCombatantForm } from "./form-edit-combatant";
 import { HealthBar } from "components/health-bar";
+import { Flipper, Flipped } from "react-flip-toolkit";
 
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Tooltip from "@material-ui/core/Tooltip";
 import Badge from "@material-ui/core/Badge";
+import Fade from "@material-ui/core/Fade";
 
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import HeartIcon from "@material-ui/icons/FavoriteRounded";
@@ -41,7 +43,7 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     return (
         <div className={clsx(cls.container, cls.wrapper)}>
             {/* Combatant Name Display */}
-            <div className={cls.container}>
+            <div className={clsx(cls.container)}>
                 <Typography style={{ color: typeColor[500], fontWeight: 600, fontSize: 18 }} noWrap>
                     {name || "Rezkin"}
                 </Typography>
@@ -100,8 +102,18 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
 
             {/* Combatant Health Meter */}
             <div className={clsx(cls.container, cls.healthWrapper)}>
-                {!isDead && <HeartIcon fontSize="small" style={{ color: red["A400"], marginRight: 2 }} />}
-                {isDead && <img src={SkullIcon} className={cls.deadIcon} alt="Skull Icon" />}
+                <Flipper flipKey={isDead} spring="gentle">
+                    {isDead ? (
+                        <Flipped flipId="icon">
+                            <img src={SkullIcon} className={cls.deadIcon} alt="Skull Icon" />
+                        </Flipped>
+                    ) : (
+                        <Flipped flipId="icon">
+                            <HeartIcon fontSize="small" style={{ color: red["A400"], marginRight: 2 }} />
+                        </Flipped>
+                    )}
+                </Flipper>
+
                 <HealthBar combatant={combatant} color={typeColor} />
                 <input
                     className={cls.healthInput}
@@ -138,13 +150,14 @@ const useStyles = makeStyles((theme) => ({
     wrapper: {
         border: (props: IStyleProps) => `${props.color[400]} 2px solid`,
         margin: theme.spacing(0.5),
-        padding: theme.spacing(2),
+        padding: theme.spacing(1.2),
         borderRadius: 5,
         width: "100%",
         background: (props: IStyleProps) => props.color[50],
         overflowX: "auto",
         justifyContent: "space-between",
         flexWrap: "wrap",
+        height: "auto",
         [theme.breakpoints.down("xs")]: {
             justifyContent: "center",
         },

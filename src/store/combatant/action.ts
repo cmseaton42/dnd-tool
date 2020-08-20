@@ -1,4 +1,4 @@
-import { ICombatant } from "types/combatant";
+import { ICombatant, IDeathSaves } from "types/combatant";
 import {
     ADD_COMBATANT,
     DELETE_COMBATANT,
@@ -8,6 +8,7 @@ import {
     ROLL_INITIATIVE,
     COPY_COMBATANT,
     CombantantActionTypes,
+    UPDATE_DEATH_SAVES,
 } from "./types";
 
 export function addCombatant(newCombatant: ICombatant): CombantantActionTypes {
@@ -64,5 +65,15 @@ export function copyCombatant(id: string): CombantantActionTypes {
     return {
         type: COPY_COMBATANT,
         id,
+    };
+}
+
+export function updateDeathSaves(id: string, deathSaves: IDeathSaves): CombantantActionTypes {
+    return {
+        type: UPDATE_DEATH_SAVES,
+        payload: {
+            id,
+            deathSaves,
+        },
     };
 }

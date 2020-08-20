@@ -18,6 +18,11 @@ export interface ICombatantHitPoints {
     temporary: number;
 }
 
+export interface IDeathSaves {
+    success: [boolean, boolean, boolean];
+    failure: [boolean, boolean, boolean];
+}
+
 export interface ICombatant {
     id: string;
     name: string;
@@ -27,6 +32,7 @@ export interface ICombatant {
     armorClass: number;
     initiative: number;
     initiativeModifier: number;
+    deathSaves?: IDeathSaves;
     monsterUrl?: string;
     characterUrl?: string;
 }
