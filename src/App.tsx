@@ -107,8 +107,8 @@ const history = createBrowserHistory({ basename: process.env.REACT_APP_BASENAME 
 
 // Initialize Google Analytics page view tracking
 history.listen((location) => {
-    ReactGA.set({ page: window.location.pathname }); // Update the user's current page
-    ReactGA.pageview(window.location.pathname); // Record a pageview for the given page
+    ReactGA.set({ page: location.pathname }); // Update the user's current page
+    ReactGA.pageview(location.pathname); // Record a pageview for the given page
 });
 
 // Setup Google Analytics
