@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { CombantantActionTypes, DELETE_COMBATANT, UPDATE_REMAINING_HP, COPY_COMBATANT } from "store/combatant/types";
 import { UpdateInitForm } from "./form-update-initiative";
 import { EditCombatantForm } from "./form-edit-combatant";
-import { HealthBar } from "components/health-bar";
+import { HealthBar } from "./health-bar";
 import { Flipper, Flipped } from "react-flip-toolkit";
 
 import Typography from "@material-ui/core/Typography";
