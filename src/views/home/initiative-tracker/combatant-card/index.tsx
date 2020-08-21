@@ -1,10 +1,10 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { ICombatant } from "types/combatant";
 import { IMaterialColor } from "types/material";
-import { useDispatch } from "react-redux";
-import { CombantantActionTypes, DELETE_COMBATANT, UPDATE_REMAINING_HP, COPY_COMBATANT } from "store/combatant/types";
+import { useCombatantDispatcher } from "store/combatant/hooks";
+import { DELETE_COMBATANT, UPDATE_REMAINING_HP, COPY_COMBATANT } from "store/combatant/types";
 import { UpdateInitForm } from "./form-update-initiative";
 import { EditCombatantForm } from "./form-edit-combatant";
 import { HealthBar } from "./health-bar";
@@ -32,7 +32,7 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const typeColor = getBackgroundByType(combatant.type);
     const cls = useStyles({ color: typeColor });
     const { name, type, id, armorClass: ac, initiative } = combatant;
-    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+    const dispatch = useCombatantDispatcher();
     const [openInitDialog, setOpenInitDialog] = React.useState(false);
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
     const [showBadge, setShowBadge] = React.useState(false);

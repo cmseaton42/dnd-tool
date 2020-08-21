@@ -1,8 +1,8 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CombantantTypes, ICombatant } from "types/combatant";
-import { useDispatch } from "react-redux";
-import { CombantantActionTypes, UPDATE_COMBATANT } from "store/combatant/types";
+import { useCombatantDispatcher } from "store/combatant/hooks";
+import { UPDATE_COMBATANT } from "store/combatant/types";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -28,7 +28,7 @@ export const EditCombatantForm: React.FC<IEditCombatantFormProps> = ({ open, onC
     const [hitpoints, setHp] = React.useState<string>(`${combatant.hitPoints.max}`);
     const [ac, setAc] = React.useState(`${combatant.armorClass}`);
     const [initMod, setInitMod] = React.useState(`${combatant.initiativeModifier}`);
-    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+    const dispatch = useCombatantDispatcher();
 
     // Evaluate form validity
     const acVal = parseInt(ac);

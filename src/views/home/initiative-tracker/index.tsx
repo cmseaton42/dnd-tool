@@ -1,10 +1,9 @@
-import React, { Dispatch } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { CombantantActionTypes, ROLL_INITIATIVE } from "store/combatant/types";
+import React from "react";
+import { ROLL_INITIATIVE } from "store/combatant/types";
 import { makeStyles } from "@material-ui/core/styles";
-import { RootState } from "store";
 import { AddCombatantForm } from "./form-add-combatant";
 import { Flipper, Flipped } from "react-flip-toolkit";
+import { useCombatants, useCombatantDispatcher } from "store/combatant/hooks";
 
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -16,9 +15,9 @@ import RollInitIcon from "@material-ui/icons/PhotoFilter";
 
 export const InitiativeTracker: React.FC = () => {
     const cls = useStyles();
-    const { combatants } = useSelector((state: RootState) => state.combantants);
+    const combatants = useCombatants();
     const [openCombatantForm, setOpenCombatantForm] = React.useState(false);
-    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+    const dispatch = useCombatantDispatcher();
 
     const sorted = combatants.sort((a, b) => b.initiative - a.initiative);
 

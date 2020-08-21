@@ -1,10 +1,10 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import clsx from "clsx";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ICombatant } from "types/combatant";
 import { IMaterialColor } from "types/material";
-import { useDispatch } from "react-redux";
-import { CombantantActionTypes, UPDATE_REMAINING_HP, UPDATE_DEATH_SAVES } from "store/combatant/types";
+import { useCombatantDispatcher } from "store/combatant/hooks";
+import { UPDATE_REMAINING_HP, UPDATE_DEATH_SAVES } from "store/combatant/types";
 import { Flipper, Flipped } from "react-flip-toolkit";
 
 import Tooltip from "@material-ui/core/Tooltip";
@@ -26,7 +26,7 @@ export interface IHealthBarProps {
 
 export const HealthBar: React.FC<IHealthBarProps> = ({ combatant, height, width, showTools, color }) => {
     const [amount, setAmount] = React.useState<string>("5");
-    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+    const dispatch = useCombatantDispatcher();
 
     const { hitPoints: hp } = combatant;
     const isHealthy = hp.remaining >= hp.max * 0.666;

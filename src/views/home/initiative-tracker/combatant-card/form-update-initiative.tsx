@@ -1,7 +1,7 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import { ICombatant } from "types/combatant";
-import { useDispatch } from "react-redux";
-import { CombantantActionTypes, UPDATE_INITIATIVE } from "store/combatant/types";
+import { useCombatantDispatcher } from "store/combatant/hooks";
+import { UPDATE_INITIATIVE } from "store/combatant/types";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -18,7 +18,7 @@ export interface IUpdateInitFormProps {
 
 export const UpdateInitForm: React.FC<IUpdateInitFormProps> = ({ open, onClose, combatant }) => {
     const [init, setInit] = React.useState(`${combatant.initiative}`);
-    const dispatch = useDispatch<Dispatch<CombantantActionTypes>>();
+    const dispatch = useCombatantDispatcher();
 
     // Evaluate form validity
     const initVal = parseInt(init);
