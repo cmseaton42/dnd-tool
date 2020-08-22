@@ -21,7 +21,7 @@ export function addCombatant(newCombatant: ICombatant): CombantantActionTypes {
 export function deleteCombatant(id: string): CombantantActionTypes {
     return {
         type: DELETE_COMBATANT,
-        id,
+        payload: id,
     };
 }
 
@@ -64,7 +64,7 @@ export function rollInitiative(): CombantantActionTypes {
 export function copyCombatant(id: string): CombantantActionTypes {
     return {
         type: COPY_COMBATANT,
-        id,
+        payload: id,
     };
 }
 

@@ -35,7 +35,7 @@ interface IAddCombatantAction {
 
 interface IDeleteCombatantAction {
     type: typeof DELETE_COMBATANT;
-    id: string;
+    payload: string;
 }
 
 interface IUpdateRemainingHpAction {
@@ -59,7 +59,7 @@ interface IRollInitiativeAction {
 
 interface ICopyCombatantAction {
     type: typeof COPY_COMBATANT;
-    id: string;
+    payload: string;
 }
 
 interface IUpdateDeathSavesAction {

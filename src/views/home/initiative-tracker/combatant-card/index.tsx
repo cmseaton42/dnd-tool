@@ -87,13 +87,13 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                 </Tooltip>
                 <Tooltip title={"Copy Combatant"}>
                     <CopyIcon
-                        onClick={() => dispatch({ type: COPY_COMBATANT, id })}
+                        onClick={() => dispatch({ type: COPY_COMBATANT, payload: id })}
                         className={clsx(cls.icon, cls.copy)}
                     />
                 </Tooltip>
                 <Tooltip title={"Delete Combatant"}>
                     <DeleteIcon
-                        onClick={() => dispatch({ type: DELETE_COMBATANT, id })}
+                        onClick={() => dispatch({ type: DELETE_COMBATANT, payload: id })}
                         className={clsx(cls.icon, cls.delete)}
                     />
                 </Tooltip>

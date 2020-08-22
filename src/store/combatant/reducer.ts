@@ -11,13 +11,21 @@ import {
     COPY_COMBATANT,
     UPDATE_DEATH_SAVES,
 } from "./types";
+import ReactGA from "react-ga";
 import { IDeathSaves } from "types/combatant";
 
 const initialState: CombatantState = {
     combatants: [],
 };
 
+const COMBATANT = "COMBATANT";
+
 export function combatantReducer(state = initialState, action: CombantantActionTypes): CombatantState {
+    ReactGA.event({
+        category: COMBATANT,
+        action: action.type,
+    });
+
     switch (action.type) {
         case ADD_COMBATANT:
             return {
@@ -26,7 +34,7 @@ export function combatantReducer(state = initialState, action: CombantantActionT
 
         case DELETE_COMBATANT:
             return {
-                combatants: state.combatants.filter((c) => c.id !== action.id),
+                combatants: state.combatants.filter((c) => c.id !== action.payload),
             };
 
         case UPDATE_REMAINING_HP:
@@ -83,7 +91,7 @@ export function combatantReducer(state = initialState, action: CombantantActionT
             };
 
         case COPY_COMBATANT:
-            const filtered = state.combatants.filter((c) => c.id === action.id);
+            const filtered = state.combatants.filter((c) => c.id === action.payload);
             const copied = filtered.length === 1 ? filtered[0] : null;
 
             if (copied)
