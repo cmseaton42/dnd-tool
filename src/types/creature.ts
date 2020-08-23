@@ -75,6 +75,11 @@ export interface IConditionBasic {
     url: string;
 }
 
+export interface IReaction {
+    name: string;
+    desc: string;
+}
+
 export interface IMonsterData extends IMonsterDataBasic {
     size: CreatureSize;
     type: string;
@@ -112,5 +117,6 @@ export interface IMonsterData extends IMonsterDataBasic {
     actions: IAction[];
     legendary_actions: ILegendaryAction[];
     languages: string;
+    reactions?: IReaction[];
     challenge_rating: number;
 }
