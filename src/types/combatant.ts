@@ -76,10 +76,12 @@ export interface ILegendaryAction {
 }
 
 export interface IActionTrackPerDay extends IUsagePerDay {
+    name: string;
     tracker: boolean[];
 }
 
 export interface IActionTrackRechargable extends IUsageRechargable {
+    name: string;
     tracker: [boolean];
 }
 
