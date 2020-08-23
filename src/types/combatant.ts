@@ -35,7 +35,7 @@ export interface ICombatant {
     deathSaves?: IDeathSaves;
     monsterUrl?: string;
     characterUrl?: string;
-    spellcasting?: ISpellcasting;
+    spellcasting?: ISpellcastingTracker;
     actions?: ActionTracker[];
 }
 
@@ -102,6 +102,18 @@ export interface ISpellSlots {
     9: number;
 }
 
+export interface ISpellSlotTracker {
+    2: boolean[];
+    1: boolean[];
+    3: boolean[];
+    4: boolean[];
+    5: boolean[];
+    6: boolean[];
+    7: boolean[];
+    8: boolean[];
+    9: boolean[];
+}
+
 export interface ISpellBasic {
     name: string;
     level: string;
@@ -120,6 +132,10 @@ export interface ISpellcasting {
     modifier: number;
     slots: ISpellSlots;
     spells: ISpellBasic[];
+}
+
+export interface ISpellcastingTracker extends ISpellcasting {
+    tracker: ISpellSlotTracker;
 }
 
 export interface IProficiencyBasic {
