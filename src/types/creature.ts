@@ -24,7 +24,7 @@ export interface IMonsterData extends IMonsterDataBasic {
         walk?: string;
         fly?: string;
         swim?: string;
-        crawl?: string;
+        burrow?: string;
         // What else can be here
     };
     strength: number;
