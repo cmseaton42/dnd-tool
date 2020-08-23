@@ -23,6 +23,7 @@ import EditIcon from "@material-ui/icons/EditRounded";
 import CopyIcon from "@material-ui/icons/FileCopyRounded";
 import SkullIcon from "./skull.svg";
 import { red, green, blue, orange, yellow, blueGrey } from "@material-ui/core/colors";
+import { useMonsters } from "helpers/api/monsters";
 
 export interface ICombatantCardProps {
     combatant: ICombatant;
@@ -36,6 +37,10 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const [openInitDialog, setOpenInitDialog] = React.useState(false);
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
     const [showBadge, setShowBadge] = React.useState(false);
+
+    const monsters = useMonsters();
+
+    console.log(...monsters);
 
     const isDead = combatant.hitPoints.remaining <= 0;
 
