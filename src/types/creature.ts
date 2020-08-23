@@ -12,6 +12,32 @@ export interface IProficiencyBasic {
     value: number;
 }
 
+export const ACTION_RECHARGE_ON_ROLL = "recharge on roll";
+export const ACTION_PER_DAY = "per day";
+
+export interface IUsageRechargable {
+    type: typeof ACTION_RECHARGE_ON_ROLL;
+    min_value: number;
+}
+
+export interface IUsagePerDay {
+    type: typeof ACTION_PER_DAY;
+    times: number;
+}
+
+export type Usage = IUsagePerDay | IUsageRechargable;
+
+export interface IAction {
+    name: string;
+    desc: string;
+    usage?: Usage;
+}
+
+export interface ILegendaryAction {
+    name: string;
+    desc: string;
+}
+
 export interface IMonsterData extends IMonsterDataBasic {
     size: CreatureSize;
     type: string;
@@ -21,11 +47,11 @@ export interface IMonsterData extends IMonsterDataBasic {
     hit_points: number;
     hit_dice: string;
     speed: {
-        walk?: string;
+        walk: string;
         fly?: string;
         swim?: string;
         burrow?: string;
-        // What else can be here
+        climb?: string;
     };
     strength: number;
     dexterity: number;
@@ -37,8 +63,17 @@ export interface IMonsterData extends IMonsterDataBasic {
     damage_vulnerabilities: string[];
     damage_resistances: string[];
     damage_immunities: string[];
+    condition_immunities: string[];
     senses: {
+        blindsight?: string;
+        truesight?: string;
         darkvision?: string;
-        // What else can be here
+        tremorsense?: string;
+        passive_perception: number;
     };
+    special_abilities: IAction[];
+    actions: IAction[];
+    legendary_actions: ILegendaryAction[];
+    languages: string;
+    challenge_rating: number;
 }
