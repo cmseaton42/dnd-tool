@@ -6,12 +6,6 @@ export interface IMonsterDataBasic {
 
 export type CreatureSize = "Tiny" | "Small" | "Medium" | "Large" | "Huge" | "Gargantuan";
 
-export interface IProficiencyBasic {
-    name: string;
-    url: string;
-    value: number;
-}
-
 export const ACTION_RECHARGE_ON_ROLL = "recharge on roll";
 export const ACTION_PER_DAY = "per day";
 
@@ -31,11 +25,49 @@ export interface IAction {
     name: string;
     desc: string;
     usage?: Usage;
+    spellcasting?: ISpellcasting;
 }
 
 export interface ILegendaryAction {
     name: string;
     desc: string;
+}
+
+export interface ISpellSlots {
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+    5: number;
+    6: number;
+    7: number;
+    8: number;
+    9: number;
+}
+
+export interface ISpellBasic {
+    name: string;
+    level: string;
+    url: string;
+}
+
+export interface ISpellcasting {
+    level: number;
+    ability: {
+        name: "INT" | "CON" | "DEX" | "WIS" | "STR" | "CON";
+        url: string;
+    };
+    dc: number;
+    modifier: number;
+    school: string;
+    slots: ISpellSlots;
+    spells: ISpellBasic[];
+}
+
+export interface IProficiencyBasic {
+    name: string;
+    url: string;
+    value: number;
 }
 
 export interface IMonsterData extends IMonsterDataBasic {
