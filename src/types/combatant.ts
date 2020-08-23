@@ -35,6 +35,7 @@ export interface ICombatant {
     deathSaves?: IDeathSaves;
     monsterUrl?: string;
     characterUrl?: string;
+    spellcaster?: ISpellcasting;
 }
 
 export interface IMonsterDataBasic {
@@ -90,15 +91,16 @@ export interface ISpellBasic {
     url: string;
 }
 
+export type Ability = "INT" | "CON" | "DEX" | "WIS" | "STR" | "CON";
+
 export interface ISpellcasting {
     level: number;
     ability: {
-        name: "INT" | "CON" | "DEX" | "WIS" | "STR" | "CON";
+        name: Ability;
         url: string;
     };
     dc: number;
     modifier: number;
-    school: string;
     slots: ISpellSlots;
     spells: ISpellBasic[];
 }
