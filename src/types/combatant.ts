@@ -35,7 +35,8 @@ export interface ICombatant {
     deathSaves?: IDeathSaves;
     monsterUrl?: string;
     characterUrl?: string;
-    spellcaster?: ISpellcasting;
+    spellcasting?: ISpellcasting;
+    actions?: ActionTracker[];
 }
 
 export interface IMonsterDataBasic {
@@ -48,6 +49,7 @@ export type CreatureSize = "Tiny" | "Small" | "Medium" | "Large" | "Huge" | "Gar
 
 export const ACTION_RECHARGE_ON_ROLL = "recharge on roll";
 export const ACTION_PER_DAY = "per day";
+export const ACTION_LEGENDARY = "legendary";
 
 export interface IUsageRechargable {
     type: typeof ACTION_RECHARGE_ON_ROLL;
@@ -72,6 +74,21 @@ export interface ILegendaryAction {
     name: string;
     desc: string;
 }
+
+export interface IActionTrackPerDay extends IUsagePerDay {
+    tracker: boolean[];
+}
+
+export interface IActionTrackRechargable extends IUsageRechargable {
+    tracker: [boolean];
+}
+
+export interface IActionTrackerLegendary {
+    type: typeof ACTION_LEGENDARY;
+    tracker: [boolean, boolean, boolean];
+}
+
+export type ActionTracker = IActionTrackPerDay | IActionTrackRechargable | IActionTrackerLegendary;
 
 export interface ISpellSlots {
     1: number;
