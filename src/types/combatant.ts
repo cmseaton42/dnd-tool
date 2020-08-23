@@ -105,8 +105,8 @@ export interface ISpellSlots {
 }
 
 export interface ISpellSlotTracker {
-    2: boolean[];
     1: boolean[];
+    2: boolean[];
     3: boolean[];
     4: boolean[];
     5: boolean[];
@@ -138,6 +138,50 @@ export interface ISpellcasting {
 
 export interface ISpellcastingTracker extends ISpellcasting {
     tracker: ISpellSlotTracker;
+}
+
+export type SpellComponent = "V" | "S" | "M";
+
+export interface ISpellDamage {
+    damage_type: {
+        name: string;
+        url: string;
+    };
+    damage_at_slot_level: {
+        1?: string;
+        2?: string;
+        3?: string;
+        4?: string;
+        5?: string;
+        6?: string;
+        7?: string;
+        8?: string;
+        9?: string;
+    };
+}
+
+export interface ISpell extends ISpellBasic {
+    index: string;
+    desc: string[];
+    higher_level: string[];
+    range: string;
+    components: SpellComponent[];
+    material?: string;
+    ritual: boolean;
+    duration: string;
+    concentration: boolean;
+    casting_time: string;
+    attack_type: string;
+    damage?: ISpellDamage;
+    school: {
+        name: string;
+        url: string;
+    };
+    classes: {
+        name: string;
+        url: string;
+    }[];
+    photo_url?: string;
 }
 
 export interface IProficiencyBasic {

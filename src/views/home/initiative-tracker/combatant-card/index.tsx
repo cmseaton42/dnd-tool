@@ -21,9 +21,10 @@ import ShieldIcon from "@material-ui/icons/SecurityRounded";
 import InitiativeIcon from "@material-ui/icons/WatchLaterRounded";
 import EditIcon from "@material-ui/icons/EditRounded";
 import CopyIcon from "@material-ui/icons/FileCopyRounded";
+import MagicIcon from "@material-ui/icons/StarsRounded";
+import ActionIcon from "@material-ui/icons/StyleRounded";
 import SkullIcon from "./skull.svg";
-import { red, green, blue, orange, yellow, blueGrey } from "@material-ui/core/colors";
-import { useMonsters } from "helpers/api/monsters";
+import { red, green, blue, orange, yellow, blueGrey, purple, pink } from "@material-ui/core/colors";
 
 export interface ICombatantCardProps {
     combatant: ICombatant;
@@ -37,10 +38,6 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
     const [openInitDialog, setOpenInitDialog] = React.useState(false);
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
     const [showBadge, setShowBadge] = React.useState(false);
-
-    const monsters = useMonsters();
-
-    console.log(...monsters);
 
     const isDead = combatant.hitPoints.remaining <= 0;
 
@@ -100,6 +97,15 @@ export const CombatantCard: React.FC<ICombatantCardProps> = ({ combatant }) => {
                     <DeleteIcon
                         onClick={() => dispatch({ type: DELETE_COMBATANT, payload: id })}
                         className={clsx(cls.icon, cls.delete)}
+                    />
+                </Tooltip>
+                <Tooltip title={"Add Spell Data"}>
+                    <MagicIcon onClick={() => console.log("Add Magic")} className={clsx(cls.icon, cls.magic)} />
+                </Tooltip>
+                <Tooltip title={"Add Action Trackers"}>
+                    <ActionIcon
+                        onClick={() => console.log("Add Action Trackers")}
+                        className={clsx(cls.icon, cls.action)}
                     />
                 </Tooltip>
             </div>
@@ -197,6 +203,18 @@ const useStyles = makeStyles((theme) => ({
         color: red[300],
         "&:hover": {
             color: red[500],
+        },
+    },
+    magic: {
+        color: purple["A200"],
+        "&:hover": {
+            color: purple["A400"],
+        },
+    },
+    action: {
+        color: pink[300],
+        "&:hover": {
+            color: pink[500],
         },
     },
     container: {
