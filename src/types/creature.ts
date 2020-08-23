@@ -70,6 +70,11 @@ export interface IProficiencyBasic {
     value: number;
 }
 
+export interface IConditionBasic {
+    name: string;
+    url: string;
+}
+
 export interface IMonsterData extends IMonsterDataBasic {
     size: CreatureSize;
     type: string;
@@ -95,7 +100,7 @@ export interface IMonsterData extends IMonsterDataBasic {
     damage_vulnerabilities: string[];
     damage_resistances: string[];
     damage_immunities: string[];
-    condition_immunities: string[];
+    condition_immunities: IConditionBasic[];
     senses: {
         blindsight?: string;
         truesight?: string;
